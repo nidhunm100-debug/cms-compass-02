@@ -17,6 +17,7 @@ import { Route as GlobalReachRouteImport } from './routes/global-reach'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrainersRouteImport } from './routes/trainers'
+import { Route as WhoWeServeRouteImport } from './routes/who-we-serve'
 import { Route as WorkshopsRouteImport } from './routes/workshops'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
@@ -77,6 +78,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const TrainersRoute = TrainersRouteImport.update({
   id: '/trainers',
   path: '/trainers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhoWeServeRoute = WhoWeServeRouteImport.update({
+  id: '/who-we-serve',
+  path: '/who-we-serve',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkshopsRoute = WorkshopsRouteImport.update({
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByTo {
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -257,6 +265,7 @@ export interface FileRoutesById {
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -290,6 +299,7 @@ export interface FileRouteTypes {
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -321,6 +331,7 @@ export interface FileRouteTypes {
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -384,6 +396,7 @@ export interface RootRouteChildren {
   InstitutionsRoute: typeof InstitutionsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TrainersRoute: typeof TrainersRoute
+  WhoWeServeRoute: typeof WhoWeServeRoute
   WorkshopsRoute: typeof WorkshopsRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCountriesRoute: typeof AdminCountriesRoute
@@ -463,6 +476,13 @@ declare module '@tanstack/react-router' {
       path: '/trainers'
       fullPath: '/trainers'
       preLoaderRoute: typeof TrainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/who-we-serve': {
+      id: '/who-we-serve'
+      path: '/who-we-serve'
+      fullPath: '/who-we-serve'
+      preLoaderRoute: typeof WhoWeServeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/workshops': {
@@ -624,6 +644,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstitutionsRoute: InstitutionsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TrainersRoute: TrainersRoute,
+  WhoWeServeRoute: WhoWeServeRoute,
   WorkshopsRoute: WorkshopsRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCountriesRoute: AdminCountriesRoute,
