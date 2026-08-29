@@ -242,7 +242,7 @@ function HomePage() {
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {map["about"]?.subheading ||
                 map["why_limra"]?.subheading ||
-                "Limra Academy for Excellence designs and delivers workshops for schools, universities,colleges and organisations. Every session is built around techniques participants can practise in the room and use immediately afterwards."}
+                "Limra Academy for Excellence designs and delivers workshops for schools, universities, colleges and organisations. Every session is built around techniques participants can practise in the room and use immediately afterwards."}
             </p>
             <div className="mt-10">
               <SecondaryButton to="/about" size="default">
