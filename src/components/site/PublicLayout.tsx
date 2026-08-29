@@ -53,15 +53,20 @@ function useHeaderNav(): NavItem[] {
   ];
 }
 
-function DesktopNav({ items }: { items: NavItem[] }) {
+function DesktopNav({ items, invert }: { items: NavItem[]; invert?: boolean }) {
   return (
     <ul className="hidden items-center gap-0.5 lg:flex">
       {items.map((item) => (
         <li key={item.label} className="group relative">
           <Link
             to={item.to as never}
-            activeProps={{ className: "text-primary" }}
-            className="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
+            activeProps={{ className: invert ? "text-dark-foreground" : "text-primary" }}
+            className={cn(
+              "flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+              invert
+                ? "text-dark-foreground/75 hover:text-dark-foreground"
+                : "text-foreground/75 hover:text-primary",
+            )}
           >
             {item.label}
             {item.children ? <ChevronDown className="size-3.5 opacity-60" /> : null}
