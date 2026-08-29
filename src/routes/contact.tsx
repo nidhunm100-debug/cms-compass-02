@@ -111,12 +111,12 @@ function ContactPage() {
       <SeoHead pageKey="contact" />
       <PageHeader
         eyebrow="Contact"
-        title="Book a Workshop"
+        title="Let's Talk About Your Training Requirement"
         intro="Tell us about your institution and requirement. We will get back to you."
       />
-      <section className="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[1.4fr_1fr]">
+      <section className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <form
-          className="grid gap-4 sm:grid-cols-2"
+          className="grid gap-4 rounded-3xl border border-border bg-card p-6 sm:grid-cols-2 sm:p-8 lg:order-2"
           onSubmit={(e) => {
             e.preventDefault();
             mutation.mutate();
@@ -197,22 +197,22 @@ function ContactPage() {
             <Textarea id="message" rows={5} maxLength={2000} value={form.message} onChange={(e) => set("message")(e.target.value)} />
           </div>
           <div className="sm:col-span-2">
-            <Button type="submit" size="lg" disabled={mutation.isPending}>
-              {mutation.isPending ? "Sending…" : "Send enquiry"}
+            <Button type="submit" size="lg" className="rounded-full px-6 font-semibold" disabled={mutation.isPending}>
+              {mutation.isPending ? "Sending…" : "Request a workshop"}
             </Button>
           </div>
         </form>
 
-        <aside className="space-y-4 rounded-lg border border-border bg-card p-6">
+        <aside className="space-y-4 self-start rounded-3xl bg-surface p-6 sm:p-8 lg:order-1">
           <p className="eyebrow">Reach us</p>
           {contact.phone ? (
             <a href={`tel:${contact.phone}`} className="flex items-center gap-2 text-sm">
-              <Phone className="size-4 text-accent" /> {contact.phone}
+              <Phone className="size-4 text-primary" /> {contact.phone}
             </a>
           ) : null}
           {contact.email ? (
             <a href={`mailto:${contact.email}`} className="flex items-center gap-2 text-sm">
-              <Mail className="size-4 text-accent" /> {contact.email}
+              <Mail className="size-4 text-primary" /> {contact.email}
             </a>
           ) : null}
           {waDigits ? (
@@ -222,12 +222,12 @@ function ContactPage() {
               rel="noreferrer"
               className="flex items-center gap-2 text-sm"
             >
-              <MessageCircle className="size-4 text-accent" /> {contact.whatsapp}
+              <MessageCircle className="size-4 text-primary" /> {contact.whatsapp}
             </a>
           ) : null}
           {contact.address ? (
             <p className="flex items-start gap-2 text-sm text-muted-foreground">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-accent" /> {contact.address}
+              <MapPin className="mt-0.5 size-4 shrink-0 text-primary" /> {contact.address}
             </p>
           ) : null}
           {contact.business_hours ? <p className="text-sm text-muted-foreground">{contact.business_hours}</p> : null}
