@@ -68,7 +68,20 @@ function SectionShell({
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.body) }}
           />
         ) : null}
+        {section.image_url ? (
+          <figure className="mt-8 overflow-hidden rounded-lg border border-border/60">
+            <img
+              src={section.image_url}
+              alt={section.heading ?? section.label ?? ""}
+              loading="lazy"
+              width={1600}
+              height={1000}
+              className="aspect-16/9 w-full object-cover"
+            />
+          </figure>
+        ) : null}
         {children}
+
         {section.cta_text && section.cta_link ? (
           <Button asChild variant="outline" className="mt-8">
             <Link to={section.cta_link as never}>
@@ -145,8 +158,20 @@ function HomePage() {
       <SectionShell section={map["about"]} tone="surface" />
 
       {impact?.enabled ? (
-        <section className="border-b border-border/60 bg-ink text-ink-foreground">
-          <div className="mx-auto max-w-6xl px-4 py-16">
+        <section className="relative isolate border-b border-border/60 bg-ink text-ink-foreground">
+          {impact.image_url ? (
+            <>
+              <img
+                src={impact.image_url}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 size-full object-cover opacity-25"
+              />
+              <div className="hero-overlay absolute inset-0" />
+            </>
+          ) : null}
+          <div className="relative mx-auto max-w-6xl px-4 py-16">
+
             <p className="eyebrow text-ink-foreground/60">{impact.label}</p>
             <h2 className="font-display mt-2 text-3xl font-semibold sm:text-4xl">{impact.heading}</h2>
             {stats.length ? (
@@ -344,8 +369,20 @@ function HomePage() {
       </SectionShell>
 
       {map["final_cta"]?.enabled ? (
-        <section className="bg-primary text-primary-foreground">
-          <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
+        <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
+          {map["final_cta"].image_url ? (
+            <>
+              <img
+                src={map["final_cta"].image_url}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 size-full object-cover opacity-30"
+              />
+              <div className="hero-overlay absolute inset-0" />
+            </>
+          ) : null}
+          <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
+
             <div>
               <h2 className="font-display text-3xl">{map["final_cta"].heading}</h2>
               {map["final_cta"].subheading ? (
