@@ -121,7 +121,7 @@ function MobileNav({ items, onNavigate }: { items: NavItem[]; onNavigate: () => 
   );
 }
 
-export function PublicLayout({ children }: { children: ReactNode }) {
+export function PublicLayout({ children, overlay }: { children: ReactNode; overlay?: boolean }) {
   const { data: settings = {} } = useSiteSettings();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
