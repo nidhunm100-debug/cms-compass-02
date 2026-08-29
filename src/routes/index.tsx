@@ -183,7 +183,7 @@ function HomePage() {
   ];
 
   return (
-    <PublicLayout>
+    <PublicLayout overlay>
       <SeoHead pageKey="home" />
 
       {/* ---------------- Editorial hero ---------------- */}
