@@ -68,7 +68,20 @@ function SectionShell({
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.body) }}
           />
         ) : null}
+        {section.image_url ? (
+          <figure className="mt-8 overflow-hidden rounded-lg border border-border/60">
+            <img
+              src={section.image_url}
+              alt={section.heading ?? section.label ?? ""}
+              loading="lazy"
+              width={1600}
+              height={1000}
+              className="aspect-16/9 w-full object-cover"
+            />
+          </figure>
+        ) : null}
         {children}
+
         {section.cta_text && section.cta_link ? (
           <Button asChild variant="outline" className="mt-8">
             <Link to={section.cta_link as never}>
