@@ -203,8 +203,9 @@ function ContactPage() {
           </div>
         </form>
 
-        <aside className="space-y-4 self-start rounded-3xl bg-surface p-6 sm:p-8 lg:order-1">
-          <p className="eyebrow">Reach us</p>
+        <aside className="royal-gradient grain space-y-4 self-start overflow-hidden rounded-[1.75rem] p-6 text-dark-foreground sm:p-9 lg:order-1 [&_a]:text-dark-foreground/85 [&_p]:text-dark-foreground/70 [&_svg]:text-bright-purple">
+          <p className="eyebrow text-dark-foreground/60">Reach us</p>
+          <p className="display-md !text-dark-foreground pb-2">Let's design the right workshop.</p>
           {contact.phone ? (
             <a href={`tel:${contact.phone}`} className="flex items-center gap-2 text-sm">
               <Phone className="size-4 text-primary" /> {contact.phone}
