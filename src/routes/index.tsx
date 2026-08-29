@@ -143,15 +143,7 @@ function HomePage() {
           <Reveal className="min-w-0">
             <p className="eyebrow">Limra Academy for Excellence</p>
             <h1 className="text-balance-tight mt-4 text-4xl leading-[1.06] sm:text-5xl lg:text-[3.9rem]">
-              {hero?.heading ? (
-                hero.heading
-              ) : (
-                <>
-                  Train the Brain.
-                  <br />
-                  <span className="text-violet">Transform Potential.</span>
-                </>
-              )}
+              <Headline text={hero?.heading || "Train the Brain. Transform Potential."} />
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {hero?.subheading ||
