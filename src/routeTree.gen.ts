@@ -25,6 +25,7 @@ import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
+import { Route as AdminImpactRouteImport } from './routes/admin.impact'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNavigationRouteImport } from './routes/admin.navigation'
@@ -118,6 +119,11 @@ const AdminHomepageRoute = AdminHomepageRouteImport.update({
   path: '/admin/homepage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminImpactRoute = AdminImpactRouteImport.update({
+  id: '/admin/impact',
+  path: '/admin/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
   id: '/admin/institutions',
   path: '/admin/institutions',
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByTo {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -256,6 +264,7 @@ export interface FileRoutesById {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -288,6 +297,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -318,6 +328,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -348,6 +359,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -379,6 +391,7 @@ export interface RootRouteChildren {
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminHomepageRoute: typeof AdminHomepageRoute
+  AdminImpactRoute: typeof AdminImpactRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNavigationRoute: typeof AdminNavigationRoute
@@ -508,6 +521,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHomepageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/impact': {
+      id: '/admin/impact'
+      path: '/admin/impact'
+      fullPath: '/admin/impact'
+      preLoaderRoute: typeof AdminImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/institutions': {
       id: '/admin/institutions'
       path: '/admin/institutions'
@@ -611,6 +631,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminGalleryRoute: AdminGalleryRoute,
   AdminHomepageRoute: AdminHomepageRoute,
+  AdminImpactRoute: AdminImpactRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNavigationRoute: AdminNavigationRoute,
