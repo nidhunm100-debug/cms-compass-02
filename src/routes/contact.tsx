@@ -114,9 +114,9 @@ function ContactPage() {
         title="Let's Talk About Your Training Requirement"
         intro="Tell us about your institution and requirement. We will get back to you."
       />
-      <section className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
         <form
-          className="grid gap-4 rounded-3xl border border-border bg-card p-6 sm:grid-cols-2 sm:p-8 lg:order-2"
+          className="grid gap-4 rounded-[1.75rem] border border-border bg-card p-6 shadow-card sm:grid-cols-2 sm:p-9 lg:order-2"
           onSubmit={(e) => {
             e.preventDefault();
             mutation.mutate();
@@ -203,8 +203,9 @@ function ContactPage() {
           </div>
         </form>
 
-        <aside className="space-y-4 self-start rounded-3xl bg-surface p-6 sm:p-8 lg:order-1">
-          <p className="eyebrow">Reach us</p>
+        <aside className="royal-gradient grain space-y-4 self-start overflow-hidden rounded-[1.75rem] p-6 text-dark-foreground sm:p-9 lg:order-1 [&_a]:text-dark-foreground/85 [&_p]:text-dark-foreground/70 [&_svg]:text-bright-purple">
+          <p className="eyebrow text-dark-foreground/60">Reach us</p>
+          <p className="display-md !text-dark-foreground pb-2">Let's design the right workshop.</p>
           {contact.phone ? (
             <a href={`tel:${contact.phone}`} className="flex items-center gap-2 text-sm">
               <Phone className="size-4 text-primary" /> {contact.phone}

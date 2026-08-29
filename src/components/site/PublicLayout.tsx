@@ -53,15 +53,20 @@ function useHeaderNav(): NavItem[] {
   ];
 }
 
-function DesktopNav({ items }: { items: NavItem[] }) {
+function DesktopNav({ items, invert }: { items: NavItem[]; invert?: boolean }) {
   return (
     <ul className="hidden items-center gap-0.5 lg:flex">
       {items.map((item) => (
         <li key={item.label} className="group relative">
           <Link
             to={item.to as never}
-            activeProps={{ className: "text-primary" }}
-            className="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
+            activeProps={{ className: invert ? "text-dark-foreground" : "text-primary" }}
+            className={cn(
+              "flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+              invert
+                ? "text-dark-foreground/75 hover:text-dark-foreground"
+                : "text-foreground/75 hover:text-primary",
+            )}
           >
             {item.label}
             {item.children ? <ChevronDown className="size-3.5 opacity-60" /> : null}
@@ -121,7 +126,7 @@ function MobileNav({ items, onNavigate }: { items: NavItem[]; onNavigate: () => 
   );
 }
 
-export function PublicLayout({ children }: { children: ReactNode }) {
+export function PublicLayout({ children, overlay }: { children: ReactNode; overlay?: boolean }) {
   const { data: settings = {} } = useSiteSettings();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -142,59 +147,70 @@ export function PublicLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header
-        className={cn(
-          "sticky top-0 z-40 transition-colors duration-300",
-          scrolled || open
-            ? "border-b border-border/70 bg-background/80 backdrop-blur-xl"
-            : "border-b border-transparent bg-background",
-        )}
-      >
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 sm:px-6 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5">
-            {branding.logo_url ? (
-              <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} className="h-9 w-auto" />
-            ) : (
-              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary font-display text-sm font-extrabold text-primary-foreground">
-                L
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
+        <div
+          className={cn(
+            "mx-auto max-w-7xl rounded-3xl transition-all duration-500",
+            scrolled || open
+              ? "border border-border/60 bg-background/75 shadow-soft backdrop-blur-2xl"
+              : "border border-transparent bg-background/10 backdrop-blur-sm",
+          )}
+        >
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-2.5 sm:px-5 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+            <Link to="/" className="flex min-w-0 items-center gap-2.5">
+              {branding.logo_url ? (
+                <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} className="h-9 w-auto" />
+              ) : (
+                <span className="font-display grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-sm font-extrabold text-primary-foreground">
+                  L
+                </span>
+              )}
+              <span
+                className={cn(
+                  "font-display min-w-0 truncate text-sm font-extrabold tracking-tight transition-colors sm:text-base",
+                  scrolled || open ? "text-foreground" : overlay ? "text-dark-foreground" : "text-foreground",
+                )}
+              >
+                {branding.site_name || "Limra Academy for Excellence"}
               </span>
-            )}
-            <span className="font-display min-w-0 truncate text-base font-extrabold tracking-tight sm:text-lg">
-              {branding.site_name || "Limra Academy for Excellence"}
-            </span>
-          </Link>
+            </Link>
 
-          <nav className="hidden justify-center lg:flex" aria-label="Main navigation">
-            <DesktopNav items={items} />
-          </nav>
+            <nav className="hidden justify-center lg:flex" aria-label="Main navigation">
+              <DesktopNav items={items} invert={!!overlay && !scrolled && !open} />
+            </nav>
 
-          <div className="flex items-center justify-end gap-2">
-            <PrimaryButton to="/contact" size="default" className="hidden sm:inline-flex">
-              Book a workshop
-            </PrimaryButton>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle menu"
-              className="rounded-full lg:hidden"
-              onClick={() => setOpen((v) => !v)}
-            >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
-            </Button>
+            <div className="flex items-center justify-end gap-2">
+              <PrimaryButton to="/contact" size="default" className="hidden sm:inline-flex">
+                Book a workshop
+              </PrimaryButton>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Toggle menu"
+                className={cn(
+                  "rounded-full lg:hidden",
+                  overlay && !scrolled && !open ? "text-dark-foreground hover:text-dark-foreground" : "",
+                )}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {open ? <X className="size-5" /> : <Menu className="size-5" />}
+              </Button>
+            </div>
           </div>
+
+          {open ? (
+            <div className="border-t border-border/60 px-4 pt-3 pb-5 lg:hidden">
+              <MobileNav items={items} onNavigate={() => setOpen(false)} />
+              <PrimaryButton to="/contact" className="mt-3 w-full" onClick={() => setOpen(false)}>
+                Book a workshop
+              </PrimaryButton>
+            </div>
+          ) : null}
         </div>
-
-        {open ? (
-          <div className="border-t border-border bg-background px-5 pt-3 pb-5 lg:hidden">
-            <MobileNav items={items} onNavigate={() => setOpen(false)} />
-            <PrimaryButton to="/contact" className="mt-3 w-full" onClick={() => setOpen(false)}>
-              Book a workshop
-            </PrimaryButton>
-          </div>
-        ) : null}
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className={cn("flex-1", overlay ? "" : "pt-20 sm:pt-24")}>{children}</main>
+
 
       <footer className="bg-ink text-ink-foreground">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
@@ -299,12 +315,21 @@ export function PageHeader({
   intro?: string | null | undefined;
 }) {
   return (
-    <section className="bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24">
-        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        <h1 className="text-balance-tight mt-3 max-w-3xl text-4xl sm:text-5xl lg:text-6xl">{title}</h1>
+    <section className="relative overflow-hidden bg-surface">
+      <span
+        aria-hidden
+        className="glow-purple pointer-events-none absolute -top-24 -right-16 size-72 rounded-full opacity-60"
+      />
+      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+        {eyebrow ? (
+          <p className="eyebrow flex items-center gap-3">
+            <span aria-hidden className="inline-block h-px w-8 bg-primary/50" />
+            {eyebrow}
+          </p>
+        ) : null}
+        <h1 className="display-lg text-balance-tight mt-6 max-w-4xl">{title}</h1>
         {intro ? (
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">{intro}</p>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{intro}</p>
         ) : null}
       </div>
     </section>
