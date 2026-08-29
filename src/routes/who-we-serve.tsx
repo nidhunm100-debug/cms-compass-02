@@ -146,7 +146,7 @@ function WhoWeServePage() {
                           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.short_description}</p>
                         ) : null}
                         <div className="mt-4">
-                          <SecondaryButton to={`/programs/${p.slug || p.id}`} size="sm">
+                          <SecondaryButton to={`/programs/${p.slug || p.id}`} size="default">
                             View program
                           </SecondaryButton>
                         </div>
