@@ -142,59 +142,70 @@ export function PublicLayout({ children, overlay }: { children: ReactNode; overl
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header
-        className={cn(
-          "sticky top-0 z-40 transition-colors duration-300",
-          scrolled || open
-            ? "border-b border-border/70 bg-background/80 backdrop-blur-xl"
-            : "border-b border-transparent bg-background",
-        )}
-      >
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 sm:px-6 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5">
-            {branding.logo_url ? (
-              <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} className="h-9 w-auto" />
-            ) : (
-              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary font-display text-sm font-extrabold text-primary-foreground">
-                L
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
+        <div
+          className={cn(
+            "mx-auto max-w-7xl rounded-3xl transition-all duration-500",
+            scrolled || open
+              ? "border border-border/60 bg-background/75 shadow-soft backdrop-blur-2xl"
+              : "border border-transparent bg-background/10 backdrop-blur-sm",
+          )}
+        >
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-2.5 sm:px-5 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+            <Link to="/" className="flex min-w-0 items-center gap-2.5">
+              {branding.logo_url ? (
+                <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} className="h-9 w-auto" />
+              ) : (
+                <span className="font-display grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-sm font-extrabold text-primary-foreground">
+                  L
+                </span>
+              )}
+              <span
+                className={cn(
+                  "font-display min-w-0 truncate text-sm font-extrabold tracking-tight transition-colors sm:text-base",
+                  scrolled || open ? "text-foreground" : overlay ? "text-dark-foreground" : "text-foreground",
+                )}
+              >
+                {branding.site_name || "Limra Academy for Excellence"}
               </span>
-            )}
-            <span className="font-display min-w-0 truncate text-base font-extrabold tracking-tight sm:text-lg">
-              {branding.site_name || "Limra Academy for Excellence"}
-            </span>
-          </Link>
+            </Link>
 
-          <nav className="hidden justify-center lg:flex" aria-label="Main navigation">
-            <DesktopNav items={items} />
-          </nav>
+            <nav className="hidden justify-center lg:flex" aria-label="Main navigation">
+              <DesktopNav items={items} invert={!!overlay && !scrolled && !open} />
+            </nav>
 
-          <div className="flex items-center justify-end gap-2">
-            <PrimaryButton to="/contact" size="default" className="hidden sm:inline-flex">
-              Book a workshop
-            </PrimaryButton>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle menu"
-              className="rounded-full lg:hidden"
-              onClick={() => setOpen((v) => !v)}
-            >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
-            </Button>
+            <div className="flex items-center justify-end gap-2">
+              <PrimaryButton to="/contact" size="default" className="hidden sm:inline-flex">
+                Book a workshop
+              </PrimaryButton>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Toggle menu"
+                className={cn(
+                  "rounded-full lg:hidden",
+                  overlay && !scrolled && !open ? "text-dark-foreground hover:text-dark-foreground" : "",
+                )}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {open ? <X className="size-5" /> : <Menu className="size-5" />}
+              </Button>
+            </div>
           </div>
+
+          {open ? (
+            <div className="border-t border-border/60 px-4 pt-3 pb-5 lg:hidden">
+              <MobileNav items={items} onNavigate={() => setOpen(false)} />
+              <PrimaryButton to="/contact" className="mt-3 w-full" onClick={() => setOpen(false)}>
+                Book a workshop
+              </PrimaryButton>
+            </div>
+          ) : null}
         </div>
-
-        {open ? (
-          <div className="border-t border-border bg-background px-5 pt-3 pb-5 lg:hidden">
-            <MobileNav items={items} onNavigate={() => setOpen(false)} />
-            <PrimaryButton to="/contact" className="mt-3 w-full" onClick={() => setOpen(false)}>
-              Book a workshop
-            </PrimaryButton>
-          </div>
-        ) : null}
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className={cn("flex-1", overlay ? "" : "pt-20 sm:pt-24")}>{children}</main>
+
 
       <footer className="bg-ink text-ink-foreground">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
