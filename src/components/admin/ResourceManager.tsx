@@ -53,7 +53,14 @@ import { ImagePicker } from "@/components/admin/ImagePicker";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { cn } from "@/lib/utils";
 
-type Row = Record<string, any>;
+type Row = {
+  id: string;
+  created_at?: string;
+  updated_at?: string;
+  slug?: string | null;
+  deleted_at?: string | null;
+  [key: string]: any;
+};
 
 /**
  * This engine works with table names chosen at runtime, so queries go through an
@@ -194,7 +201,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
       const result: Record<string, string[]> = {};
       for (const field of config.fields) {
         if (!field.join) continue;
-        const { data } = await supabase
+        const { data } = await db
           .from(field.join.table)
           .select(field.join.otherColumn)
           .eq(field.join.selfColumn, editing!.id);
@@ -270,7 +277,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
         const selected: string[] = effectiveJoins[field.name] ?? [];
         await db.from(field.join.table).delete().eq(field.join.selfColumn, id);
         if (selected.length) {
-          await supabase
+          await db
             .from(field.join.table)
             .insert(selected.map((other) => ({ [field.join!.selfColumn]: id, [field.join!.otherColumn]: other })));
         }
@@ -303,7 +310,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
   const deleteMutation = useMutation({
     mutationFn: async (row: Row) => {
       if (config.softDelete && !showArchived) {
-        const { error } = await supabase
+        const { error } = await db
           .from(config.table)
           .update({ deleted_at: new Date().toISOString(), ...(config.publishColumn ? { [config.publishColumn]: false } : {}) })
           .eq("id", row.id);
