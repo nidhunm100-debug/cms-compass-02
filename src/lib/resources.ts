@@ -132,8 +132,6 @@ export const trainersResource: ResourceConfig = {
   ],
 };
 
-export const trainersDefaults = { person_type: "Trainer" };
-
 export const programsResource: ResourceConfig = {
   table: "programs",
   title: "Programs",
