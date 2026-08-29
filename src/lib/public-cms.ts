@@ -166,6 +166,8 @@ export type TrainingTopic = {
   name: string;
   description: string | null;
   category: string | null;
+  topic_group: string | null;
+  icon: string | null;
 };
 
 export function useSiteSettings() {
@@ -228,7 +230,7 @@ export function useTrainers(options: { featured?: boolean } = {}) {
       let q = supabase
         .from("trainers")
         .select(
-          "id, name, professional_title, qualification, position, short_bio, full_bio, photo_url, training_areas, regions, linkedin_url, featured",
+          "id, name, person_type, professional_title, qualification, position, short_bio, full_bio, photo_url, training_areas, regions, linkedin_url, featured",
         )
         .eq("published", true)
         .is("deleted_at", null)
@@ -248,7 +250,7 @@ export function usePrograms(options: { featured?: boolean } = {}) {
       let q = supabase
         .from("programs")
         .select(
-          "id, slug, name, short_description, full_description, target_audience, duration, workshop_format, image_url, gallery_images, cta_text, cta_link, featured",
+          "id, slug, name, category, short_description, full_description, target_audience, duration, workshop_format, image_url, gallery_images, cta_text, cta_link, featured",
         )
         .eq("published", true)
         .is("deleted_at", null)
@@ -374,12 +376,28 @@ export function useTrainingTopics() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("training_topics")
-        .select("id, name, description, category")
+        .select("id, name, description, category, topic_group, icon")
         .eq("published", true)
         .is("deleted_at", null)
         .order("display_order");
       if (error) throw error;
       return (data ?? []) as TrainingTopic[];
+    },
+  });
+}
+
+export function useImpactStats() {
+  return useQuery({
+    queryKey: ["public", "impact_stats"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("impact_stats")
+        .select("id, value, label, description, icon")
+        .eq("published", true)
+        .is("deleted_at", null)
+        .order("display_order");
+      if (error) throw error;
+      return (data ?? []) as ImpactStat[];
     },
   });
 }
