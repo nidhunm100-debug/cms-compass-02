@@ -21,6 +21,7 @@ import {
   useCountries,
   useGalleryImages,
   useHomepageSections,
+  useImpactStats,
   useInstitutions,
   usePrograms,
   useSiteSettings,
@@ -58,7 +59,7 @@ const AUDIENCES = [
       "Train the Brain equips students of classes VII–XII with the concentration, memory and study techniques they need to perform with confidence.",
     tags: ["Train the Brain", "Concentration", "Memory", "Study Techniques", "Career Guidance"],
     ctaLabel: "Explore student training",
-    ctaTo: "/programs",
+    ctaTo: "/who-we-serve",
   },
   {
     index: "02",
@@ -67,7 +68,7 @@ const AUDIENCES = [
       "Effective Teaching Skills helps educators strengthen classroom delivery, communication and student psychology across a focused two-day workshop.",
     tags: ["Teaching Methods", "Communication", "Classroom Management", "Student Psychology"],
     ctaLabel: "Explore teacher training",
-    ctaTo: "/programs",
+    ctaTo: "/who-we-serve",
   },
   {
     index: "03",
@@ -76,7 +77,7 @@ const AUDIENCES = [
       "Customised professional development for employees and managers — built around your team's communication, leadership and thinking needs.",
     tags: ["Leadership", "Communication", "Teamwork", "Lateral Thinking"],
     ctaLabel: "Explore corporate training",
-    ctaTo: "/programs",
+    ctaTo: "/who-we-serve",
   },
 ] as const;
 
@@ -85,6 +86,14 @@ const APPROACH = [
   { step: "02", title: "Experience", body: "Guided activities that make each technique real." },
   { step: "03", title: "Practice", body: "Repetition in the room until it feels natural." },
   { step: "04", title: "Apply", body: "A plan participants use the very next day." },
+] as const;
+
+const TTB_GROUP_ORDER = [
+  "Focus & Concentration",
+  "Memory & Brain",
+  "Study & Academic Skills",
+  "Personal Development",
+  "Future & Career",
 ] as const;
 
 const TTB_TOPICS = [
@@ -126,12 +135,16 @@ function HomePage() {
   const { data: gallery = [] } = useGalleryImages({ limit: 6 });
   const { data: testimonials = [] } = useTestimonials();
   const { data: topics = [] } = useTrainingTopics();
+  const { data: impactStats = [] } = useImpactStats();
 
   const hero = map["hero"];
   const impact = map["impact"];
-  const stats = ((impact?.extra as { stats?: { value: string; label: string }[] } | undefined)?.stats ?? []).filter(
+  const legacyStats = ((impact?.extra as { stats?: { value: string; label: string }[] } | undefined)?.stats ?? []).filter(
     (s) => s.value || s.label,
   );
+  const stats = impactStats.length
+    ? impactStats.map((s) => ({ value: s.value, label: s.label }))
+    : legacyStats;
 
   const programList = (featuredPrograms.length ? featuredPrograms : allPrograms).slice(0, 3);
   const [leadProgram, ...restPrograms] = programList;
@@ -140,8 +153,11 @@ function HomePage() {
   const institutionList = (featuredInstitutions.length ? featuredInstitutions : allInstitutions).slice(0, 8);
   const remainingInstitutions = Math.max(allInstitutions.length - institutionList.length, 0);
 
-  const studentTopics = topics.filter((t) => (t.category ?? "").toLowerCase().includes("student"));
-  const ttbTopics = Array.from(new Set([...studentTopics.map((t) => t.name), ...TTB_TOPICS])).slice(0, 6);
+  const ttbGroups = TTB_GROUP_ORDER.map((group) => ({
+    group,
+    items: topics.filter((t) => t.topic_group === group).map((t) => t.name),
+  })).filter((g) => g.items.length);
+  const ttbFallback = TTB_TOPICS;
   const audienceImages = [
     map["programs"]?.image_url,
     map["why_limra"]?.image_url,
@@ -295,16 +311,90 @@ function HomePage() {
             </div>
           </Reveal>
           <Reveal className="min-w-0" delay={100}>
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {ttbTopics.map((name) => (
-                <li key={name} className="rounded-2xl border border-border bg-card px-4 py-4 text-sm font-medium">
-                  {name}
-                </li>
-              ))}
-            </ul>
+            {ttbGroups.length ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {ttbGroups.map((g) => (
+                  <div key={g.group} className="rounded-2xl border border-border bg-card p-5">
+                    <p className="eyebrow">{g.group}</p>
+                    <ul className="mt-3 space-y-1.5">
+                      {g.items.map((name) => (
+                        <li key={name} className="text-sm text-muted-foreground">
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {ttbFallback.map((name) => (
+                  <li key={name} className="rounded-2xl border border-border bg-card px-4 py-4 text-sm font-medium">
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </Reveal>
         </div>
       </Section>
+
+
+      {/* ---------------- Teacher & Corporate training ---------------- */}
+      {[
+        { key: "teacher_training", slug: "effective-teaching-skills", eyebrow: "For teachers & educators" },
+        { key: "corporate_training", slug: "corporate-training", eyebrow: "For corporates & professionals" },
+      ].map((block, i) => {
+        const section = map[block.key];
+        if (section && section.enabled === false) return null;
+        const program = allPrograms.find((p) => p.slug === block.slug);
+        if (!section && !program) return null;
+        return (
+          <Section key={block.key} tone={i % 2 === 0 ? "white" : "lavender"}>
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-16">
+              <Reveal className="min-w-0">
+                <p className="eyebrow">{block.eyebrow}</p>
+                <h2 className="text-balance-tight mt-3 text-3xl sm:text-4xl">
+                  {section?.heading || program?.name}
+                </h2>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+                  {section?.subheading || program?.short_description}
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {program ? (
+                    <PrimaryButton to={`/programs/${program.slug || program.id}`}>View this program</PrimaryButton>
+                  ) : null}
+                  <SecondaryButton to="/contact" size="default">
+                    Request a proposal
+                  </SecondaryButton>
+                </div>
+              </Reveal>
+              <Reveal className="min-w-0" delay={90}>
+                <dl className="grid gap-4 rounded-3xl border border-border bg-surface p-6 sm:grid-cols-2">
+                  {program?.target_audience ? (
+                    <div>
+                      <dt className="eyebrow">Audience</dt>
+                      <dd className="mt-1 text-sm font-medium">{program.target_audience}</dd>
+                    </div>
+                  ) : null}
+                  {program?.duration ? (
+                    <div>
+                      <dt className="eyebrow">Duration</dt>
+                      <dd className="mt-1 text-sm font-medium">{program.duration}</dd>
+                    </div>
+                  ) : null}
+                  {program?.workshop_format ? (
+                    <div className="sm:col-span-2">
+                      <dt className="eyebrow">Format</dt>
+                      <dd className="mt-1 text-sm font-medium">{program.workshop_format}</dd>
+                    </div>
+                  ) : null}
+                </dl>
+              </Reveal>
+            </div>
+          </Section>
+        );
+      })}
 
       {/* ---------------- Impact ---------------- */}
       <Section tone="purple">
@@ -345,6 +435,9 @@ function HomePage() {
                 intro="International training experience delivered on campus and in-house — with the same practical method adapted to each culture and classroom."
               />
               <div className="mt-8">
+                <SecondaryButton to="/impact" size="default">
+                  Our impact <ArrowRight className="ml-1.5 size-4" />
+                </SecondaryButton>
                 <SecondaryButton to="/global-reach" size="default">
                   See our global reach <ArrowRight className="ml-1.5 size-4" />
                 </SecondaryButton>
@@ -527,6 +620,8 @@ function HomePage() {
 
       <div className="sr-only">
         <Link to="/workshops">Upcoming workshops</Link>
+        <Link to="/training-areas">Training areas</Link>
+        <Link to="/who-we-serve">Who we serve</Link>
       </div>
     </PublicLayout>
   );

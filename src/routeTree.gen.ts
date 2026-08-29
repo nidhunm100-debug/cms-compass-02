@@ -14,9 +14,12 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GlobalReachRouteImport } from './routes/global-reach'
+import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrainersRouteImport } from './routes/trainers'
+import { Route as TrainingAreasRouteImport } from './routes/training-areas'
+import { Route as WhoWeServeRouteImport } from './routes/who-we-serve'
 import { Route as WorkshopsRouteImport } from './routes/workshops'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
@@ -25,6 +28,7 @@ import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
+import { Route as AdminImpactRouteImport } from './routes/admin.impact'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNavigationRouteImport } from './routes/admin.navigation'
@@ -63,6 +67,11 @@ const GlobalReachRoute = GlobalReachRouteImport.update({
   path: '/global-reach',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstitutionsRoute = InstitutionsRouteImport.update({
   id: '/institutions',
   path: '/institutions',
@@ -76,6 +85,16 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const TrainersRoute = TrainersRouteImport.update({
   id: '/trainers',
   path: '/trainers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainingAreasRoute = TrainingAreasRouteImport.update({
+  id: '/training-areas',
+  path: '/training-areas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhoWeServeRoute = WhoWeServeRouteImport.update({
+  id: '/who-we-serve',
+  path: '/who-we-serve',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkshopsRoute = WorkshopsRouteImport.update({
@@ -116,6 +135,11 @@ const AdminGalleryRoute = AdminGalleryRouteImport.update({
 const AdminHomepageRoute = AdminHomepageRouteImport.update({
   id: '/admin/homepage',
   path: '/admin/homepage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminImpactRoute = AdminImpactRouteImport.update({
+  id: '/admin/impact',
+  path: '/admin/impact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
@@ -185,9 +209,12 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/training-areas': typeof TrainingAreasRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -195,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -215,9 +243,12 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/training-areas': typeof TrainingAreasRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -225,6 +256,7 @@ export interface FileRoutesByTo {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -246,9 +278,12 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
+  '/training-areas': typeof TrainingAreasRoute
+  '/who-we-serve': typeof WhoWeServeRoute
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
@@ -256,6 +291,7 @@ export interface FileRoutesById {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/impact': typeof AdminImpactRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/navigation': typeof AdminNavigationRoute
@@ -278,9 +314,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/training-areas'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -288,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -308,9 +348,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/training-areas'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -318,6 +361,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -338,9 +382,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
+    | '/training-areas'
+    | '/who-we-serve'
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
@@ -348,6 +395,7 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/gallery'
     | '/admin/homepage'
+    | '/admin/impact'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/navigation'
@@ -369,9 +417,12 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   GlobalReachRoute: typeof GlobalReachRoute
+  ImpactRoute: typeof ImpactRoute
   InstitutionsRoute: typeof InstitutionsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TrainersRoute: typeof TrainersRoute
+  TrainingAreasRoute: typeof TrainingAreasRoute
+  WhoWeServeRoute: typeof WhoWeServeRoute
   WorkshopsRoute: typeof WorkshopsRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCountriesRoute: typeof AdminCountriesRoute
@@ -379,6 +430,7 @@ export interface RootRouteChildren {
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminHomepageRoute: typeof AdminHomepageRoute
+  AdminImpactRoute: typeof AdminImpactRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNavigationRoute: typeof AdminNavigationRoute
@@ -431,6 +483,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GlobalReachRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/institutions': {
       id: '/institutions'
       path: '/institutions'
@@ -450,6 +509,20 @@ declare module '@tanstack/react-router' {
       path: '/trainers'
       fullPath: '/trainers'
       preLoaderRoute: typeof TrainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training-areas': {
+      id: '/training-areas'
+      path: '/training-areas'
+      fullPath: '/training-areas'
+      preLoaderRoute: typeof TrainingAreasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/who-we-serve': {
+      id: '/who-we-serve'
+      path: '/who-we-serve'
+      fullPath: '/who-we-serve'
+      preLoaderRoute: typeof WhoWeServeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/workshops': {
@@ -506,6 +579,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/homepage'
       fullPath: '/admin/homepage'
       preLoaderRoute: typeof AdminHomepageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/impact': {
+      id: '/admin/impact'
+      path: '/admin/impact'
+      fullPath: '/admin/impact'
+      preLoaderRoute: typeof AdminImpactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/institutions': {
@@ -601,9 +681,12 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   GlobalReachRoute: GlobalReachRoute,
+  ImpactRoute: ImpactRoute,
   InstitutionsRoute: InstitutionsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TrainersRoute: TrainersRoute,
+  TrainingAreasRoute: TrainingAreasRoute,
+  WhoWeServeRoute: WhoWeServeRoute,
   WorkshopsRoute: WorkshopsRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCountriesRoute: AdminCountriesRoute,
@@ -611,6 +694,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminGalleryRoute: AdminGalleryRoute,
   AdminHomepageRoute: AdminHomepageRoute,
+  AdminImpactRoute: AdminImpactRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNavigationRoute: AdminNavigationRoute,

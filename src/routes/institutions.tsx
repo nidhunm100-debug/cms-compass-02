@@ -39,6 +39,18 @@ function InstitutionsPage() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState("all");
   const [country, setCountry] = useState("all");
+  const [region, setRegion] = useState("all");
+  const [city, setCity] = useState("all");
+  const [category, setCategory] = useState("all");
+
+  const uniques = (values: (string | null)[]) =>
+    Array.from(new Set(values.filter((v): v is string => !!v && v.trim().length > 0))).sort();
+  const inCountry = institutions.filter((i) => country === "all" || i.country_name === country);
+  const regionOptions = uniques(inCountry.map((i) => i.state_region));
+  const cityOptions = uniques(
+    inCountry.filter((i) => region === "all" || i.state_region === region).map((i) => i.city),
+  );
+  const categoryOptions = uniques(institutions.map((i) => i.training_category));
 
   const term = search.trim().toLowerCase();
   const filtered = institutions.filter((i) => {
@@ -49,7 +61,10 @@ function InstitutionsPage() {
       : true;
     const matchesType = type === "all" || i.institution_type === type;
     const matchesCountry = country === "all" || i.country_name === country;
-    return matchesTerm && matchesType && matchesCountry;
+    const matchesRegion = region === "all" || i.state_region === region;
+    const matchesCity = city === "all" || i.city === city;
+    const matchesCategory = category === "all" || i.training_category === category;
+    return matchesTerm && matchesType && matchesCountry && matchesRegion && matchesCity && matchesCategory;
   });
 
   return (
@@ -84,7 +99,14 @@ function InstitutionsPage() {
               ))}
             </SelectContent>
           </Select>
-          <Select value={country} onValueChange={setCountry}>
+          <Select
+            value={country}
+            onValueChange={(v) => {
+              setCountry(v);
+              setRegion("all");
+              setCity("all");
+            }}
+          >
             <SelectTrigger className="sm:w-48">
               <SelectValue placeholder="All countries" />
             </SelectTrigger>
@@ -98,6 +120,58 @@ function InstitutionsPage() {
             </SelectContent>
           </Select>
         </div>
+
+        <div className="mb-6 flex flex-col gap-2 sm:flex-row">
+          <Select
+            value={region}
+            onValueChange={(v) => {
+              setRegion(v);
+              setCity("all");
+            }}
+          >
+            <SelectTrigger className="sm:w-48">
+              <SelectValue placeholder="All regions" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All regions / states</SelectItem>
+              {regionOptions.map((r) => (
+                <SelectItem key={r} value={r}>
+                  {r}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={city} onValueChange={setCity}>
+            <SelectTrigger className="sm:w-48">
+              <SelectValue placeholder="All cities" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All cities</SelectItem>
+              {cityOptions.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="sm:w-56">
+              <SelectValue placeholder="All training types" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All training types</SelectItem>
+              {categoryOptions.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <p className="mb-6 text-sm text-muted-foreground">
+          Showing {filtered.length} of {institutions.length} institutions
+        </p>
 
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading institutions…</p>
@@ -134,6 +208,9 @@ function InstitutionsPage() {
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     <Badge variant="secondary">{institution.institution_type}</Badge>
+                    {institution.training_category ? (
+                      <Badge variant="outline">{institution.training_category}</Badge>
+                    ) : null}
                     {institution.year ? <Badge variant="outline">{institution.year}</Badge> : null}
                   </div>
                   {institution.training_conducted ? (
@@ -155,7 +232,7 @@ function InstitutionsPage() {
           </div>
         ) : (
           <EmptyState
-            title={term || type !== "all" || country !== "all" ? "No institutions match your filters." : "No institutions published yet."}
+            title={term || type !== "all" || country !== "all" || region !== "all" || city !== "all" || category !== "all" ? "No institutions match your filters." : "No institutions published yet."}
             body="An administrator can add institutions in the admin panel."
           />
         )}

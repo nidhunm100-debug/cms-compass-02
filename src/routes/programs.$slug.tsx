@@ -57,7 +57,12 @@ function ProgramDetailPage() {
               .eq("published", true)
           : Promise.resolve({ data: [] }),
         topicIds.length
-          ? supabase.from("training_topics").select("id, name").in("id", topicIds).eq("published", true)
+          ? supabase
+              .from("training_topics")
+              .select("id, name, topic_group")
+              .in("id", topicIds)
+              .eq("published", true)
+              .order("display_order")
           : Promise.resolve({ data: [] }),
         countryIds.length
           ? supabase.from("countries").select("id, name, flag_emoji").in("id", countryIds).eq("published", true)
@@ -67,7 +72,7 @@ function ProgramDetailPage() {
       return {
         program: program as unknown as Program,
         trainers: (trainers.data ?? []) as { id: string; name: string; professional_title: string | null; photo_url: string | null }[],
-        topics: (topics.data ?? []) as { id: string; name: string }[],
+        topics: (topics.data ?? []) as { id: string; name: string; topic_group: string | null }[],
         countries: (countries.data ?? []) as { id: string; name: string; flag_emoji: string | null }[],
       };
     },
@@ -119,11 +124,24 @@ function ProgramDetailPage() {
           {topics.length ? (
             <div className="mt-10">
               <h2 className="font-display text-2xl">Topics covered</h2>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {topics.map((topic) => (
-                  <Badge key={topic.id} variant="secondary">
-                    {topic.name}
-                  </Badge>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                {Object.entries(
+                  topics.reduce<Record<string, typeof topics>>((acc, topic) => {
+                    const key = topic.topic_group || "Topics";
+                    (acc[key] ??= []).push(topic);
+                    return acc;
+                  }, {}),
+                ).map(([group, list]) => (
+                  <div key={group} className="rounded-2xl border border-border bg-card p-5">
+                    <p className="eyebrow">{group}</p>
+                    <ul className="mt-3 space-y-1.5">
+                      {list.map((topic) => (
+                        <li key={topic.id} className="text-sm text-muted-foreground">
+                          {topic.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
               </div>
             </div>

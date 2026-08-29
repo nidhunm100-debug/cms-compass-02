@@ -16,7 +16,7 @@ type NavItem = { label: string; to: string; children?: { label: string; to: stri
 
 function useHeaderNav(): NavItem[] {
   const { data: programs = [] } = usePrograms();
-  const programChildren = programs.slice(0, 5).map((p) => ({
+  const programChildren = programs.slice(0, 6).map((p) => ({
     label: p.name,
     to: `/programs/${p.slug || p.id}`,
   }));
@@ -31,14 +31,24 @@ function useHeaderNav(): NavItem[] {
     },
     {
       label: "Who We Serve",
-      to: "/institutions",
+      to: "/who-we-serve",
       children: [
-        { label: "Schools & Students", to: "/institutions" },
-        { label: "Teachers & Educators", to: "/programs" },
-        { label: "Corporates & Professionals", to: "/programs" },
+        { label: "Schools & Students", to: "/who-we-serve" },
+        { label: "Teachers & Educators", to: "/who-we-serve" },
+        { label: "Corporates & Professionals", to: "/who-we-serve" },
+        { label: "Training areas", to: "/training-areas" },
       ],
     },
-    { label: "Our Impact", to: "/global-reach" },
+    {
+      label: "Our Impact",
+      to: "/impact",
+      children: [
+        { label: "Impact numbers", to: "/impact" },
+        { label: "Global reach", to: "/global-reach" },
+        { label: "Institutions", to: "/institutions" },
+        { label: "Gallery", to: "/gallery" },
+      ],
+    },
     { label: "Our Team", to: "/trainers" },
   ];
 }
