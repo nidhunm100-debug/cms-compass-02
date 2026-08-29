@@ -1,7 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-export type SiteSettings = Record<string, Record<string, string>>;
+export type SettingsGroup = {
+  [key: string]: string | undefined;
+  site_name?: string;
+  tagline?: string;
+  description?: string;
+  logo_url?: string;
+  footer_note?: string;
+  copyright?: string;
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+  address?: string;
+  business_hours?: string;
+  countries_served?: string;
+  map_embed_url?: string;
+  facebook?: string;
+  instagram?: string;
+  linkedin?: string;
+  youtube?: string;
+  twitter?: string;
+  default_title?: string;
+  default_description?: string;
+  default_og_image?: string;
+  google_analytics_id?: string;
+};
+
+export type SiteSettings = {
+  [key: string]: SettingsGroup | undefined;
+  branding?: SettingsGroup;
+  contact?: SettingsGroup;
+  social?: SettingsGroup;
+  footer?: SettingsGroup;
+  seo_defaults?: SettingsGroup;
+};
 
 export type HomepageSection = {
   id: string;
@@ -132,7 +165,7 @@ export function useSiteSettings() {
       if (error) throw error;
       const map: SiteSettings = {};
       (data ?? []).forEach((row: { key: string; value: unknown }) => {
-        map[row.key] = (row.value ?? {}) as Record<string, string>;
+        map[row.key] = (row.value ?? {}) as SettingsGroup;
       });
       return map;
     },

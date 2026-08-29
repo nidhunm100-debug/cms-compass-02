@@ -95,7 +95,7 @@ function GroupEditor({ group }: { group: (typeof GROUPS)[number] }) {
     queryKey: ["admin", "site_settings", group.key],
     queryFn: async () => {
       const { data: row } = await supabase.from("site_settings").select("value").eq("key", group.key).maybeSingle();
-      return ((row?.value ?? {}) as Record<string, string>) ?? {};
+      return (row?.value ?? {}) as Record<string, string>;
     },
   });
   const [values, setValues] = useState<Record<string, string>>({});
@@ -189,7 +189,9 @@ function UsersPanel() {
         return;
       }
       await supabase.from("user_roles").delete().eq("user_id", userId);
-      const { error } = await supabase.from("user_roles").insert({ user_id: userId, role });
+      const { error } = await supabase
+        .from("user_roles")
+        .insert({ user_id: userId, role: role as "super_admin" | "content_manager" });
       if (error) throw new Error("Could not update this role.");
     },
     onSuccess: () => {

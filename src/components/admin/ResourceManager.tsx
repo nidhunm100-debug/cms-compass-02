@@ -55,6 +55,12 @@ import { cn } from "@/lib/utils";
 
 type Row = Record<string, any>;
 
+/**
+ * This engine works with table names chosen at runtime, so queries go through an
+ * untyped view of the client. Database row-level security still enforces access.
+ */
+const db = supabase as unknown as { from: (table: string) => any };
+
 export type FieldType =
   | "text"
   | "textarea"
@@ -144,7 +150,7 @@ function useRelationOptions(fields: Field[], filters: ResourceConfig["filters"])
       const result: Record<string, { id: string; label: string }[]> = {};
       for (const [table, labelColumn] of specs) {
         if (labelColumn === "id") continue;
-        const { data } = await supabase.from(table).select(`id, ${labelColumn}`).order(labelColumn);
+        const { data } = await db.from(table).select(`id, ${labelColumn}`).order(labelColumn);
         result[table] = ((data ?? []) as Row[]).map((r) => ({ id: r.id, label: r[labelColumn] ?? "Untitled" }));
       }
       return result;
@@ -169,7 +175,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
   const listQuery = useQuery({
     queryKey: [config.table, "admin-list", showArchived],
     queryFn: async () => {
-      let q = supabase.from(config.table).select("*");
+      let q = db.from(config.table).select("*");
       if (config.softDelete) {
         q = showArchived ? q.not("deleted_at", "is", null) : q.is("deleted_at", null);
       }
@@ -248,13 +254,13 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
 
       let id = editing?.id as string | undefined;
       if (id) {
-        const { error } = await supabase.from(config.table).update(payload).eq("id", id);
+        const { error } = await db.from(config.table).update(payload).eq("id", id);
         if (error) throw error;
       } else {
         if (config.orderColumn) {
           payload[config.orderColumn] = (listQuery.data?.length ?? 0) + 1;
         }
-        const { data, error } = await supabase.from(config.table).insert(payload).select("id").single();
+        const { data, error } = await db.from(config.table).insert(payload).select("id").single();
         if (error) throw error;
         id = (data as Row).id;
       }
@@ -262,7 +268,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
       for (const field of config.fields) {
         if (!field.join || !id) continue;
         const selected: string[] = effectiveJoins[field.name] ?? [];
-        await supabase.from(field.join.table).delete().eq(field.join.selfColumn, id);
+        await db.from(field.join.table).delete().eq(field.join.selfColumn, id);
         if (selected.length) {
           await supabase
             .from(field.join.table)
@@ -283,7 +289,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
 
   const patchMutation = useMutation({
     mutationFn: async ({ id, patch }: { id: string; patch: Row }) => {
-      const { error } = await supabase.from(config.table).update(patch).eq("id", id);
+      const { error } = await db.from(config.table).update(patch).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -303,7 +309,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
           .eq("id", row.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from(config.table).delete().eq("id", row.id);
+        const { error } = await db.from(config.table).delete().eq("id", row.id);
         if (error) throw error;
       }
     },
@@ -326,7 +332,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
       if (copy.slug) copy.slug = `${copy.slug}-copy-${Date.now().toString(36)}`;
       copy[config.listPrimary] = `${row[config.listPrimary]} (copy)`;
       if (config.publishColumn) copy[config.publishColumn] = false;
-      const { error } = await supabase.from(config.table).insert(copy);
+      const { error } = await db.from(config.table).insert(copy);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -346,7 +352,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
     current.splice(to, 0, moved!);
     await Promise.all(
       current.map((row, index) =>
-        supabase.from(config.table).update({ [config.orderColumn!]: index + 1 }).eq("id", row.id),
+        db.from(config.table).update({ [config.orderColumn!]: index + 1 }).eq("id", row.id),
       ),
     );
     toast.success("Order saved");

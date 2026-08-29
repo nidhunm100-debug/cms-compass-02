@@ -203,9 +203,9 @@ export function PageHeader({
   title,
   intro,
 }: {
-  eyebrow?: string;
+  eyebrow?: string | undefined;
   title: string;
-  intro?: string | null;
+  intro?: string | null | undefined;
 }) {
   return (
     <section className="border-b border-border bg-surface">

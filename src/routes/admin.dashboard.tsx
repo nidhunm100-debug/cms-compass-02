@@ -32,11 +32,15 @@ export const Route = createFileRoute("/admin/dashboard")({
 });
 
 async function countRows(table: string, filters: Record<string, unknown> = {}) {
-  let q = supabase.from(table).select("id", { count: "exact", head: true });
+  // Table names are dynamic here, so this count helper uses an untyped client.
+  const db = supabase as unknown as {
+    from: (table: string) => any;
+  };
+  let q = db.from(table).select("id", { count: "exact", head: true });
   Object.entries(filters).forEach(([key, value]) => {
     q = value === null ? q.is(key, null) : q.eq(key, value);
   });
-  const { count } = await q;
+  const { count } = (await q) as { count: number | null };
   return count ?? 0;
 }
 

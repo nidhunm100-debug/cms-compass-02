@@ -95,8 +95,8 @@ function HomePage() {
   const { data: testimonials = [] } = useTestimonials();
   const { data: topics = [] } = useTrainingTopics();
 
-  const hero = map.hero;
-  const impact = map.impact;
+  const hero = map["hero"];
+  const impact = map["impact"];
   const stats = ((impact?.extra as { stats?: { value: string; label: string }[] } | undefined)?.stats ?? []).filter(
     (s) => s.value || s.label,
   );
@@ -142,7 +142,7 @@ function HomePage() {
         </section>
       ) : null}
 
-      <SectionShell section={map.about} tone="surface" />
+      <SectionShell section={map["about"]} tone="surface" />
 
       {impact?.enabled ? (
         <section className="border-b border-border/60 bg-ink text-ink-foreground">
@@ -167,7 +167,7 @@ function HomePage() {
         </section>
       ) : null}
 
-      <SectionShell section={map.programs}>
+      <SectionShell section={map["programs"]}>
         {programList.length ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {programList.map((program) => (
@@ -204,7 +204,7 @@ function HomePage() {
         )}
       </SectionShell>
 
-      <SectionShell section={map.why_limra} tone="surface">
+      <SectionShell section={map["why_limra"]} tone="surface">
         {topics.length ? (
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {topics.slice(0, 9).map((topic) => (
@@ -219,7 +219,7 @@ function HomePage() {
         ) : null}
       </SectionShell>
 
-      <SectionShell section={map.international}>
+      <SectionShell section={map["international"]}>
         {countries.length ? (
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {countries.map((country) => (
@@ -239,7 +239,7 @@ function HomePage() {
         )}
       </SectionShell>
 
-      <SectionShell section={map.trainers} tone="surface">
+      <SectionShell section={map["trainers"]} tone="surface">
         {trainerList.length ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {trainerList.slice(0, 6).map((trainer) => (
@@ -269,7 +269,7 @@ function HomePage() {
         )}
       </SectionShell>
 
-      <SectionShell section={map.institutions}>
+      <SectionShell section={map["institutions"]}>
         {institutionList.length ? (
           <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {institutionList.slice(0, 15).map((institution) => (
@@ -294,7 +294,7 @@ function HomePage() {
         )}
       </SectionShell>
 
-      <SectionShell section={map.gallery} tone="surface">
+      <SectionShell section={map["gallery"]} tone="surface">
         {gallery.length ? (
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {gallery.map((image) => (
@@ -315,7 +315,7 @@ function HomePage() {
         )}
       </SectionShell>
 
-      <SectionShell section={map.testimonials}>
+      <SectionShell section={map["testimonials"]}>
         {testimonials.length ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
@@ -343,18 +343,18 @@ function HomePage() {
         ) : null}
       </SectionShell>
 
-      {map.final_cta?.enabled ? (
+      {map["final_cta"]?.enabled ? (
         <section className="bg-primary text-primary-foreground">
           <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-display text-3xl">{map.final_cta.heading}</h2>
-              {map.final_cta.subheading ? (
-                <p className="mt-2 max-w-xl text-sm opacity-80">{map.final_cta.subheading}</p>
+              <h2 className="font-display text-3xl">{map["final_cta"].heading}</h2>
+              {map["final_cta"].subheading ? (
+                <p className="mt-2 max-w-xl text-sm opacity-80">{map["final_cta"].subheading}</p>
               ) : null}
             </div>
-            {map.final_cta.cta_text && map.final_cta.cta_link ? (
+            {map["final_cta"].cta_text && map["final_cta"].cta_link ? (
               <Button asChild size="lg" variant="secondary">
-                <Link to={map.final_cta.cta_link as never}>{map.final_cta.cta_text}</Link>
+                <Link to={map["final_cta"].cta_link as never}>{map["final_cta"].cta_text}</Link>
               </Button>
             ) : null}
           </div>
