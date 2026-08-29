@@ -314,3 +314,142 @@
     font-weight: 700;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Premium art-direction utilities                                     */
+/* ------------------------------------------------------------------ */
+
+@utility royal-gradient {
+  background-image:
+    radial-gradient(120% 90% at 12% 0%, oklch(0.42 0.21 296 / 0.85), transparent 60%),
+    radial-gradient(90% 80% at 100% 100%, oklch(0.52 0.23 292 / 0.6), transparent 55%),
+    linear-gradient(150deg, var(--color-dark), oklch(0.24 0.13 296) 55%, var(--color-dark));
+}
+
+@utility deep-veil {
+  background-image: linear-gradient(
+    to top,
+    oklch(0.145 0.036 300 / 0.96),
+    oklch(0.17 0.07 298 / 0.78) 42%,
+    oklch(0.2 0.1 296 / 0.45)
+  );
+}
+
+@utility side-veil {
+  background-image: linear-gradient(
+    100deg,
+    oklch(0.145 0.036 300 / 0.94) 0%,
+    oklch(0.16 0.06 298 / 0.8) 42%,
+    oklch(0.2 0.1 296 / 0.35) 72%,
+    oklch(0.24 0.12 296 / 0.15) 100%
+  );
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+}
+
+@utility glow-purple {
+  background-image: radial-gradient(circle at center, oklch(0.63 0.196 296 / 0.45), transparent 68%);
+  filter: blur(60px);
+}
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  font-size: clamp(2.6rem, 8.4vw, 6rem);
+}
+
+@utility display-lg {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-size: clamp(2.15rem, 5.2vw, 3.9rem);
+}
+
+@utility display-md {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+}
+
+@utility stat-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-size: clamp(2.25rem, 4.6vw, 3.6rem);
+}
+
+@utility link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1.5px;
+    width: 0;
+    background-color: currentColor;
+    transition: width 0.35s ease;
+  }
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+@keyframes limra-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: limra-marquee 42s linear infinite;
+}
+
+@utility marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@keyframes limra-pulse-marker {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@utility marker-pulse {
+  animation: limra-pulse-marker 2.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .marker-pulse {
+    animation: none;
+  }
+}
