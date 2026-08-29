@@ -96,6 +96,20 @@ const TTB_TOPICS = [
   "Self Confidence",
 ];
 
+/** Renders a headline with its closing sentence emphasised in violet. */
+function Headline({ text }: { text: string }) {
+  const parts = text.split(/(?<=\.)\s+/).filter(Boolean);
+  if (parts.length < 2) return <>{text}</>;
+  const last = parts[parts.length - 1];
+  return (
+    <>
+      {parts.slice(0, -1).join(" ")}
+      <br />
+      <span className="text-violet">{last}</span>
+    </>
+  );
+}
+
 function HomePage() {
   const { data: sections } = useHomepageSections();
   const map = sections?.map ?? {};
