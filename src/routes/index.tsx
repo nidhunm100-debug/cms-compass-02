@@ -369,8 +369,20 @@ function HomePage() {
       </SectionShell>
 
       {map["final_cta"]?.enabled ? (
-        <section className="bg-primary text-primary-foreground">
-          <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
+        <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
+          {map["final_cta"].image_url ? (
+            <>
+              <img
+                src={map["final_cta"].image_url}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 size-full object-cover opacity-30"
+              />
+              <div className="hero-overlay absolute inset-0" />
+            </>
+          ) : null}
+          <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
+
             <div>
               <h2 className="font-display text-3xl">{map["final_cta"].heading}</h2>
               {map["final_cta"].subheading ? (
