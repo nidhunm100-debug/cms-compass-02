@@ -26,7 +26,9 @@ export const Route = createFileRoute("/programs/")({
 
 function ProgramsPage() {
   const { data: programs = [], isLoading } = usePrograms();
-  const categories = Array.from(new Set(programs.map((p) => p.category).filter(Boolean))) as string[];
+  const [category, setCategory] = useState<string>("All");
+  const categories = ["All", ...Array.from(new Set(programs.map((p) => p.category).filter(Boolean) as string[]))];
+  const visible = category === "All" ? programs : programs.filter((p) => p.category === category);
 
   return (
     <PublicLayout>
@@ -37,12 +39,31 @@ function ProgramsPage() {
         intro="Every program is delivered on campus or in-house by Limra trainers."
       />
       <section className="mx-auto max-w-6xl px-4 py-14">
+        {categories.length > 2 ? (
+          <div className="mb-8 flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setCategory(c)}
+                className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors ${
+                  category === c
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        ) : null}
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading programs…</p>
-        ) : programs.length ? (
+        ) : visible.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((program) => (
+            {visible.map((program) => (
               <article key={program.id} className="overflow-hidden rounded-lg border border-border bg-card">
+
                 {program.image_url ? (
                   <img
                     src={program.image_url}
