@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GlobalReachRouteImport } from './routes/global-reach'
+import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrainersRouteImport } from './routes/trainers'
@@ -63,6 +64,11 @@ const GalleryRoute = GalleryRouteImport.update({
 const GlobalReachRoute = GlobalReachRouteImport.update({
   id: '/global-reach',
   path: '/global-reach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstitutionsRoute = InstitutionsRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
@@ -229,6 +236,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
@@ -262,6 +270,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
+  '/impact': typeof ImpactRoute
   '/institutions': typeof InstitutionsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
@@ -296,6 +305,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
@@ -328,6 +338,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
@@ -360,6 +371,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/global-reach'
+    | '/impact'
     | '/institutions'
     | '/reset-password'
     | '/trainers'
@@ -393,6 +405,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   GlobalReachRoute: typeof GlobalReachRoute
+  ImpactRoute: typeof ImpactRoute
   InstitutionsRoute: typeof InstitutionsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TrainersRoute: typeof TrainersRoute
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       path: '/global-reach'
       fullPath: '/global-reach'
       preLoaderRoute: typeof GlobalReachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/institutions': {
@@ -641,6 +661,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   GlobalReachRoute: GlobalReachRoute,
+  ImpactRoute: ImpactRoute,
   InstitutionsRoute: InstitutionsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TrainersRoute: TrainersRoute,
