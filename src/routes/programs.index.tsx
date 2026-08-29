@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { EmptyState, PageHeader, PublicLayout } from "@/components/site/PublicLayout";
@@ -75,6 +76,7 @@ function ProgramsPage() {
                 <div className="space-y-2 p-5">
                   <h2 className="font-display text-xl">{program.name}</h2>
                   <div className="flex flex-wrap gap-1.5">
+                    {program.category ? <Badge>{program.category}</Badge> : null}
                     {program.target_audience ? <Badge variant="secondary">{program.target_audience}</Badge> : null}
                     {program.duration ? <Badge variant="outline">{program.duration}</Badge> : null}
                   </div>
