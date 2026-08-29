@@ -1,36 +1,47 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Quote, Star } from "lucide-react";
+import { ArrowRight, MapPin, Quote } from "lucide-react";
 
-import { PublicLayout, EmptyState } from "@/components/site/PublicLayout";
+import { PublicLayout, whatsappHref } from "@/components/site/PublicLayout";
 import { SeoHead } from "@/components/site/SeoHead";
+import {
+  AudienceCard,
+  CTASection,
+  GalleryGrid,
+  InstitutionCard,
+  PrimaryButton,
+  ProgramCard,
+  Reveal,
+  Section,
+  SectionHeading,
+  SecondaryButton,
+  StatBlock,
+  TrainerCard,
+} from "@/components/site/ui-kit";
 import {
   useCountries,
   useGalleryImages,
   useHomepageSections,
   useInstitutions,
   usePrograms,
+  useSiteSettings,
   useTestimonials,
   useTrainingTopics,
   useTrainers,
-  type HomepageSection,
 } from "@/lib/public-cms";
-import { sanitizeHtml } from "@/lib/sanitize";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Limra Academy for Excellence — Training Students, Teachers & Corporates" },
+      { title: "Limra Academy for Excellence — Train the Brain, Transform Potential" },
       {
         name: "description",
         content:
-          "Limra Academy delivers Train the Brain, teacher training and corporate skill workshops across India, Malaysia, Indonesia, UAE, Vietnam and Sri Lanka.",
+          "International training organisation delivering Train the Brain, teacher training and corporate development workshops for students, educators and professionals.",
       },
       { property: "og:title", content: "Limra Academy for Excellence" },
       {
         property: "og:description",
-        content: "International training for students, teachers and corporate teams.",
+        content: "Practical, psychology-based training for students, teachers, employees and managers.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,72 +50,66 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-function SectionShell({
-  section,
-  children,
-  tone = "default",
-}: {
-  section: HomepageSection | undefined;
-  children?: React.ReactNode;
-  tone?: "default" | "surface" | "ink";
-}) {
-  if (!section?.enabled) return null;
-  const toneClass =
-    tone === "ink" ? "bg-ink text-ink-foreground" : tone === "surface" ? "bg-surface" : "bg-background";
-  return (
-    <section className={`border-b border-border/60 ${toneClass}`}>
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        {section.label ? <p className="eyebrow">{section.label}</p> : null}
-        {section.heading ? (
-          <h2 className="font-display mt-2 text-3xl font-semibold sm:text-4xl">{section.heading}</h2>
-        ) : null}
-        <span className="gold-rule mt-4" />
-        {section.subheading ? (
-          <p className="mt-4 max-w-2xl text-base opacity-80">{section.subheading}</p>
-        ) : null}
-        {section.body ? (
-          <div
-            className="prose-cms mt-5 max-w-3xl"
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.body) }}
-          />
-        ) : null}
-        {section.image_url ? (
-          <figure className="mt-8 overflow-hidden rounded-lg border border-border/60">
-            <img
-              src={section.image_url}
-              alt={section.heading ?? section.label ?? ""}
-              loading="lazy"
-              width={1600}
-              height={1000}
-              className="aspect-16/9 w-full object-cover"
-            />
-          </figure>
-        ) : null}
-        {children}
+const AUDIENCES = [
+  {
+    index: "01",
+    title: "Schools & Students",
+    description:
+      "Train the Brain equips students of classes VII–XII with the concentration, memory and study techniques they need to perform with confidence.",
+    tags: ["Train the Brain", "Concentration", "Memory", "Study Techniques", "Career Guidance"],
+    ctaLabel: "Explore student training",
+    ctaTo: "/programs",
+  },
+  {
+    index: "02",
+    title: "Teachers & Educators",
+    description:
+      "Effective Teaching Skills helps educators strengthen classroom delivery, communication and student psychology across a focused two-day workshop.",
+    tags: ["Teaching Methods", "Communication", "Classroom Management", "Student Psychology"],
+    ctaLabel: "Explore teacher training",
+    ctaTo: "/programs",
+  },
+  {
+    index: "03",
+    title: "Corporates & Professionals",
+    description:
+      "Customised professional development for employees and managers — built around your team's communication, leadership and thinking needs.",
+    tags: ["Leadership", "Communication", "Teamwork", "Lateral Thinking"],
+    ctaLabel: "Explore corporate training",
+    ctaTo: "/programs",
+  },
+] as const;
 
-        {section.cta_text && section.cta_link ? (
-          <Button asChild variant="outline" className="mt-8">
-            <Link to={section.cta_link as never}>
-              {section.cta_text} <ArrowRight className="ml-1.5 size-4" />
-            </Link>
-          </Button>
-        ) : null}
-      </div>
-    </section>
-  );
-}
+const APPROACH = [
+  { step: "01", title: "Understand", body: "Techniques explained in plain, practical language." },
+  { step: "02", title: "Experience", body: "Guided activities that make each technique real." },
+  { step: "03", title: "Practice", body: "Repetition in the room until it feels natural." },
+  { step: "04", title: "Apply", body: "A plan participants use the very next day." },
+] as const;
+
+const TTB_TOPICS = [
+  "Concentration Techniques",
+  "Super Memory Techniques",
+  "Brain Activation",
+  "Study Techniques",
+  "Career Guidance",
+  "Self Confidence",
+];
 
 function HomePage() {
   const { data: sections } = useHomepageSections();
   const map = sections?.map ?? {};
-  const { data: programs = [] } = usePrograms({ featured: true });
+  const { data: settings = {} } = useSiteSettings();
+  const wa = whatsappHref(settings.contact?.whatsapp);
+
+  const { data: featuredPrograms = [] } = usePrograms({ featured: true });
   const { data: allPrograms = [] } = usePrograms();
-  const { data: trainers = [] } = useTrainers({ featured: true });
+  const { data: featuredTrainers = [] } = useTrainers({ featured: true });
   const { data: allTrainers = [] } = useTrainers();
-  const { data: institutions = [] } = useInstitutions({ featured: true });
+  const { data: featuredInstitutions = [] } = useInstitutions({ featured: true });
   const { data: allInstitutions = [] } = useInstitutions();
   const { data: countries = [] } = useCountries();
-  const { data: gallery = [] } = useGalleryImages({ limit: 8 });
+  const { data: gallery = [] } = useGalleryImages({ limit: 6 });
   const { data: testimonials = [] } = useTestimonials();
   const { data: topics = [] } = useTrainingTopics();
 
@@ -114,289 +119,408 @@ function HomePage() {
     (s) => s.value || s.label,
   );
 
-  const programList = programs.length ? programs : allPrograms;
-  const trainerList = trainers.length ? trainers : allTrainers;
-  const institutionList = institutions.length ? institutions : allInstitutions;
+  const programList = (featuredPrograms.length ? featuredPrograms : allPrograms).slice(0, 3);
+  const [leadProgram, ...restPrograms] = programList;
+  const trainerList = featuredTrainers.length ? featuredTrainers : allTrainers;
+  const [leadTrainer, ...restTrainers] = trainerList;
+  const institutionList = (featuredInstitutions.length ? featuredInstitutions : allInstitutions).slice(0, 8);
+  const remainingInstitutions = Math.max(allInstitutions.length - institutionList.length, 0);
+
+  const studentTopics = topics.filter((t) => (t.category ?? "").toLowerCase().includes("student"));
+  const audienceImages = [
+    map["programs"]?.image_url,
+    map["why_limra"]?.image_url,
+    map["institutions"]?.image_url,
+  ];
 
   return (
     <PublicLayout>
       <SeoHead pageKey="home" />
 
-      {hero?.enabled ? (
-        <section className="relative isolate overflow-hidden">
-          {hero.image_url ? (
-            <img src={hero.image_url} alt="" className="absolute inset-0 size-full object-cover" />
-          ) : (
-            <div className="absolute inset-0 bg-primary" />
-          )}
-          <div className="hero-overlay absolute inset-0" />
-          <div className="relative mx-auto max-w-6xl px-4 py-28 sm:py-36">
-            <p className="eyebrow text-ink-foreground/70">Limra Academy for Excellence</p>
-            <h1 className="font-display text-balance-tight mt-4 max-w-3xl text-4xl font-semibold text-ink-foreground sm:text-6xl">
-              {hero.heading || "Training minds across borders"}
+      {/* ---------------- Hero ---------------- */}
+      <section className="bg-background">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pt-12 pb-16 sm:px-6 sm:pt-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 lg:pt-24 lg:pb-24">
+          <Reveal className="min-w-0">
+            <p className="eyebrow">Limra Academy for Excellence</p>
+            <h1 className="text-balance-tight mt-4 text-4xl leading-[1.06] sm:text-5xl lg:text-[3.9rem]">
+              {hero?.heading ? (
+                hero.heading
+              ) : (
+                <>
+                  Train the Brain.
+                  <br />
+                  <span className="text-violet">Transform Potential.</span>
+                </>
+              )}
             </h1>
-            <span className="gold-rule mt-6" />
-            {hero.subheading ? (
-              <p className="mt-6 max-w-2xl text-lg text-ink-foreground/80">{hero.subheading}</p>
-            ) : null}
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {hero?.subheading ||
+                "Practical, psychology-based and activity-oriented training for students, teachers, employees and managers."}
+            </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              {hero.cta_text && hero.cta_link ? (
-                <Button asChild size="lg">
-                  <Link to={hero.cta_link as never}>{hero.cta_text}</Link>
-                </Button>
-              ) : null}
-              {hero.secondary_cta_text && hero.secondary_cta_link ? (
-                <Button asChild size="lg" variant="secondary">
-                  <Link to={hero.secondary_cta_link as never}>{hero.secondary_cta_text}</Link>
-                </Button>
-              ) : null}
+              <PrimaryButton to={hero?.cta_link || "/contact"}>{hero?.cta_text || "Book a workshop"}</PrimaryButton>
+              <SecondaryButton to={hero?.secondary_cta_link || "/programs"}>
+                {hero?.secondary_cta_text || "Explore programs"}
+              </SecondaryButton>
             </div>
-          </div>
-        </section>
-      ) : null}
+          </Reveal>
 
-      <SectionShell section={map["about"]} tone="surface" />
-
-      {impact?.enabled ? (
-        <section className="relative isolate border-b border-border/60 bg-ink text-ink-foreground">
-          {impact.image_url ? (
-            <>
-              <img
-                src={impact.image_url}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover opacity-25"
-              />
-              <div className="hero-overlay absolute inset-0" />
-            </>
-          ) : null}
-          <div className="relative mx-auto max-w-6xl px-4 py-16">
-
-            <p className="eyebrow text-ink-foreground/60">{impact.label}</p>
-            <h2 className="font-display mt-2 text-3xl font-semibold sm:text-4xl">{impact.heading}</h2>
-            {stats.length ? (
-              <dl className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                {stats.map((stat) => (
-                  <div key={`${stat.label}-${stat.value}`}>
-                    <dt className="font-display text-4xl text-accent">{stat.value}</dt>
-                    <dd className="mt-1 text-sm text-ink-foreground/70">{stat.label}</dd>
-                  </div>
-                ))}
-              </dl>
-            ) : (
-              <p className="mt-6 text-sm text-ink-foreground/60">
-                Add impact statistics in the admin panel under Homepage → Impact Statistics.
-              </p>
-            )}
-          </div>
-        </section>
-      ) : null}
-
-      <SectionShell section={map["programs"]}>
-        {programList.length ? (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programList.map((program) => (
-              <article key={program.id} className="group overflow-hidden rounded-lg border border-border bg-card">
-                {program.image_url ? (
-                  <img
-                    src={program.image_url}
-                    alt={program.name}
-                    loading="lazy"
-                    className="aspect-16/10 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : null}
-                <div className="space-y-2 p-5">
-                  <h3 className="font-display text-xl">{program.name}</h3>
-                  {program.target_audience ? (
-                    <Badge variant="secondary">{program.target_audience}</Badge>
-                  ) : null}
-                  <p className="text-sm text-muted-foreground">{program.short_description}</p>
-                  <Link
-                    to="/programs/$slug"
-                    params={{ slug: program.slug || program.id }}
-                    className="inline-flex items-center text-sm font-medium text-primary"
-                  >
-                    Read more <ArrowRight className="ml-1 size-3.5" />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-8">
-            <EmptyState title="No programs published yet." body="Add programs in the admin panel to show them here." />
-          </div>
-        )}
-      </SectionShell>
-
-      <SectionShell section={map["why_limra"]} tone="surface">
-        {topics.length ? (
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {topics.slice(0, 9).map((topic) => (
-              <li key={topic.id} className="rounded-lg border border-border bg-card p-4">
-                <p className="font-medium">{topic.name}</p>
-                {topic.description ? (
-                  <p className="mt-1 text-sm text-muted-foreground">{topic.description}</p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </SectionShell>
-
-      <SectionShell section={map["international"]}>
-        {countries.length ? (
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {countries.map((country) => (
-              <li key={country.id} className="rounded-lg border border-border bg-card p-5">
-                <p className="text-2xl">{country.flag_emoji ?? "🌍"}</p>
-                <p className="font-display mt-2 text-lg">{country.name}</p>
-                {country.training_count ? (
-                  <p className="text-sm text-muted-foreground">{country.training_count} trainings</p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="mt-8">
-            <EmptyState title="No countries published yet." body="Add countries in the admin panel under Countries." />
-          </div>
-        )}
-      </SectionShell>
-
-      <SectionShell section={map["trainers"]} tone="surface">
-        {trainerList.length ? (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {trainerList.slice(0, 6).map((trainer) => (
-              <article key={trainer.id} className="overflow-hidden rounded-lg border border-border bg-card">
-                {trainer.photo_url ? (
-                  <img
-                    src={trainer.photo_url}
-                    alt={trainer.name}
-                    loading="lazy"
-                    className="aspect-4/5 w-full object-cover"
-                  />
-                ) : null}
-                <div className="space-y-1 p-5">
-                  <h3 className="font-display text-xl">{trainer.name}</h3>
-                  {trainer.professional_title ? (
-                    <p className="text-sm text-muted-foreground">{trainer.professional_title}</p>
-                  ) : null}
-                  {trainer.qualification ? <p className="text-xs text-muted-foreground">{trainer.qualification}</p> : null}
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-8">
-            <EmptyState title="No trainers published yet." body="Add trainers in the admin panel to show them here." />
-          </div>
-        )}
-      </SectionShell>
-
-      <SectionShell section={map["institutions"]}>
-        {institutionList.length ? (
-          <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {institutionList.slice(0, 15).map((institution) => (
-              <li
-                key={institution.id}
-                className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center"
-              >
-                {institution.logo_url ? (
-                  <img src={institution.logo_url} alt={institution.name} loading="lazy" className="h-12 w-auto object-contain" />
-                ) : null}
-                <p className="text-xs font-medium">{institution.name}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="mt-8">
-            <EmptyState
-              title="No institutions published yet."
-              body="Add schools, colleges, universities or corporates in the admin panel."
+          <Reveal className="relative min-w-0" delay={120}>
+            <div
+              aria-hidden
+              className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-lavender blur-2xl"
             />
-          </div>
-        )}
-      </SectionShell>
+            {hero?.image_url ? (
+              <img
+                src={hero.image_url}
+                alt="Limra Academy workshop in progress"
+                width={1200}
+                height={1000}
+                className="aspect-4/3 w-full rounded-3xl object-cover shadow-elegant"
+              />
+            ) : (
+              <div className="aspect-4/3 w-full rounded-3xl bg-lavender" />
+            )}
+          </Reveal>
+        </div>
 
-      <SectionShell section={map["gallery"]} tone="surface">
-        {gallery.length ? (
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {gallery.map((image) => (
-              <figure key={image.id} className="overflow-hidden rounded-lg border border-border">
-                <img
-                  src={image.image_url}
-                  alt={image.alt_text ?? image.title ?? "Limra workshop"}
-                  loading="lazy"
-                  className="aspect-square w-full object-cover"
-                />
-              </figure>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-8">
-            <EmptyState title="No gallery images yet." body="Upload workshop photographs in the admin panel." />
-          </div>
-        )}
-      </SectionShell>
-
-      <SectionShell section={map["testimonials"]}>
-        {testimonials.length ? (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <blockquote key={testimonial.id} className="rounded-lg border border-border bg-card p-6">
-                <Quote className="size-5 text-accent" />
-                <p className="mt-3 text-sm leading-relaxed">{testimonial.quote}</p>
-                <footer className="mt-4">
-                  <p className="text-sm font-medium">{testimonial.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {[testimonial.designation, testimonial.organization, testimonial.country]
-                      .filter(Boolean)
-                      .join(", ")}
-                  </p>
-                  {testimonial.rating ? (
-                    <p className="mt-1 flex gap-0.5">
-                      {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <Star key={i} className="size-3.5 fill-accent text-accent" />
-                      ))}
-                    </p>
-                  ) : null}
-                </footer>
-              </blockquote>
-            ))}
+        {/* Credibility strip */}
+        {stats.length ? (
+          <div className="mx-auto max-w-6xl px-5 pb-16 sm:px-6 sm:pb-20">
+            <div className="grid grid-cols-2 gap-6 rounded-3xl border border-border bg-surface px-6 py-8 sm:grid-cols-4 sm:px-10">
+              {stats.slice(0, 4).map((stat) => (
+                <StatBlock key={stat.label + stat.value} value={stat.value} label={stat.label} />
+              ))}
+            </div>
           </div>
         ) : null}
-      </SectionShell>
+      </section>
 
-      {map["final_cta"]?.enabled ? (
-        <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
-          {map["final_cta"].image_url ? (
-            <>
-              <img
-                src={map["final_cta"].image_url}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover opacity-30"
+      {/* ---------------- Who We Help ---------------- */}
+      <Section tone="lavender" id="who-we-serve">
+        <SectionHeading
+          eyebrow="Who we help"
+          title="Three audiences. One practical method."
+          intro="Every Limra workshop is designed for a specific room — students, educators or professional teams."
+        />
+        <div className="mt-12 space-y-6">
+          {AUDIENCES.map((a, i) => (
+            <AudienceCard
+              key={a.index}
+              index={a.index}
+              title={a.title}
+              description={a.description}
+              tags={[...a.tags]}
+              image={audienceImages[i] ?? gallery[i]?.image_url}
+              ctaLabel={a.ctaLabel}
+              ctaTo={a.ctaTo}
+              reverse={i % 2 === 1}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* ---------------- Programs ---------------- */}
+      {programList.length ? (
+        <Section tone="white">
+          <SectionHeading
+            eyebrow="Programs"
+            title="Programs that create practical change"
+            action={
+              <SecondaryButton to="/programs" size="default">
+                All programs <ArrowRight className="ml-1.5 size-4" />
+              </SecondaryButton>
+            }
+          />
+          <div className="mt-12 space-y-6">
+            {leadProgram ? (
+              <ProgramCard
+                featured
+                name={leadProgram.name}
+                audience={leadProgram.target_audience}
+                duration={leadProgram.duration}
+                format={leadProgram.workshop_format}
+                description={leadProgram.short_description}
+                image={leadProgram.image_url}
+                to={`/programs/${leadProgram.slug || leadProgram.id}`}
               />
-              <div className="hero-overlay absolute inset-0" />
-            </>
-          ) : null}
-          <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:flex-row sm:items-center sm:justify-between">
-
-            <div>
-              <h2 className="font-display text-3xl">{map["final_cta"].heading}</h2>
-              {map["final_cta"].subheading ? (
-                <p className="mt-2 max-w-xl text-sm opacity-80">{map["final_cta"].subheading}</p>
-              ) : null}
-            </div>
-            {map["final_cta"].cta_text && map["final_cta"].cta_link ? (
-              <Button asChild size="lg" variant="secondary">
-                <Link to={map["final_cta"].cta_link as never}>{map["final_cta"].cta_text}</Link>
-              </Button>
+            ) : null}
+            {restPrograms.length ? (
+              <div className="grid gap-6 sm:grid-cols-2">
+                {restPrograms.map((p) => (
+                  <ProgramCard
+                    key={p.id}
+                    name={p.name}
+                    audience={p.target_audience}
+                    duration={p.duration}
+                    format={p.workshop_format}
+                    description={p.short_description}
+                    image={p.image_url}
+                    to={`/programs/${p.slug || p.id}`}
+                  />
+                ))}
+              </div>
             ) : null}
           </div>
-        </section>
+        </Section>
       ) : null}
+
+      {/* ---------------- Train the Brain feature ---------------- */}
+      <Section tone="lavender">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-16">
+          <Reveal className="min-w-0">
+            <p className="eyebrow">Flagship workshop</p>
+            <h2 className="text-balance-tight mt-3 text-3xl sm:text-4xl lg:text-5xl">Train the Brain</h2>
+            <p className="mt-4 text-lg font-medium text-violet">
+              Better Focus. Stronger Memory. Greater Confidence.
+            </p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Not a lecture — a practical, activity-oriented training experience.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <span className="rounded-full bg-background px-4 py-2 text-sm font-semibold text-primary">5 hours</span>
+              <span className="rounded-full bg-background px-4 py-2 text-sm font-semibold text-primary">
+                One full-day workshop
+              </span>
+            </div>
+            <div className="mt-9">
+              <PrimaryButton to="/contact">Bring this workshop to your school</PrimaryButton>
+            </div>
+          </Reveal>
+          <Reveal className="min-w-0" delay={100}>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {(studentTopics.length ? studentTopics.map((t) => t.name) : TTB_TOPICS).slice(0, 6).map((name) => (
+                <li key={name} className="rounded-2xl border border-border bg-card px-4 py-4 text-sm font-medium">
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* ---------------- Impact ---------------- */}
+      <Section tone="purple">
+        <SectionHeading
+          invert
+          eyebrow="Our impact"
+          title={impact?.heading || "Experience measured in impact"}
+        />
+        {stats.length ? (
+          <dl className="mt-12 grid gap-10 sm:grid-cols-3">
+            {stats.slice(0, 3).map((stat) => (
+              <StatBlock key={stat.label + stat.value} value={stat.value} label={stat.label} invert />
+            ))}
+          </dl>
+        ) : null}
+        {countries.length ? (
+          <div className="mt-14 border-t border-deep-purple-foreground/15 pt-8">
+            <p className="eyebrow text-deep-purple-foreground/60">Training experience across</p>
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              {countries.map((c) => (
+                <li key={c.id} className="text-base font-semibold text-deep-purple-foreground/90">
+                  {c.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </Section>
+
+      {/* ---------------- Global reach ---------------- */}
+      {countries.length ? (
+        <Section tone="white">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <Reveal className="min-w-0">
+              <SectionHeading
+                eyebrow="Global reach"
+                title="Training beyond borders"
+                intro="International training experience delivered on campus and in-house — with the same practical method adapted to each culture and classroom."
+              />
+              <div className="mt-8">
+                <SecondaryButton to="/global-reach" size="default">
+                  See our global reach <ArrowRight className="ml-1.5 size-4" />
+                </SecondaryButton>
+              </div>
+            </Reveal>
+            <Reveal className="min-w-0" delay={100}>
+              <ul className="grid grid-cols-2 gap-3 rounded-3xl border border-border bg-surface p-6 sm:grid-cols-3">
+                {countries.map((c) => (
+                  <li key={c.id} className="flex items-center gap-2 text-sm font-medium">
+                    <MapPin className="size-4 shrink-0 text-primary" />
+                    <span className="truncate">{c.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ---------------- Approach ---------------- */}
+      <Section tone="lavender">
+        <SectionHeading
+          eyebrow="Our approach"
+          title="More than a lecture"
+          intro="Limra workshops are designed around practical techniques, participation and immediate application."
+        />
+        <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {APPROACH.map((s, i) => (
+            <Reveal as="li" key={s.step} delay={i * 70} className="rounded-2xl border border-border bg-card p-6">
+              <p className="font-display text-sm font-extrabold text-primary/50">{s.step}</p>
+              <p className="font-display mt-2 text-lg font-bold">{s.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </Reveal>
+          ))}
+        </ol>
+      </Section>
+
+      {/* ---------------- Trainers ---------------- */}
+      {trainerList.length ? (
+        <Section tone="white">
+          <SectionHeading
+            eyebrow="Our team"
+            title="Meet the people behind the training"
+            action={
+              <SecondaryButton to="/trainers" size="default">
+                All trainers <ArrowRight className="ml-1.5 size-4" />
+              </SecondaryButton>
+            }
+          />
+          {leadTrainer ? (
+            <Reveal className="mt-12 grid items-center gap-8 rounded-3xl border border-border bg-surface p-6 sm:p-8 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)] lg:gap-12 lg:p-10">
+              <div className="min-w-0">
+                {leadTrainer.photo_url ? (
+                  <img
+                    src={leadTrainer.photo_url}
+                    alt={leadTrainer.name}
+                    loading="lazy"
+                    className="aspect-4/5 w-full rounded-2xl object-cover"
+                  />
+                ) : (
+                  <div className="aspect-4/5 w-full rounded-2xl bg-lavender" />
+                )}
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-2xl sm:text-3xl">{leadTrainer.name}</h3>
+                {leadTrainer.position || leadTrainer.professional_title ? (
+                  <p className="mt-2 text-sm font-semibold text-primary">
+                    {leadTrainer.position || leadTrainer.professional_title}
+                  </p>
+                ) : null}
+                {leadTrainer.qualification ? (
+                  <p className="mt-1 text-sm text-muted-foreground">{leadTrainer.qualification}</p>
+                ) : null}
+                {leadTrainer.short_bio ? (
+                  <p className="mt-5 text-base leading-relaxed text-muted-foreground">{leadTrainer.short_bio}</p>
+                ) : null}
+                {leadTrainer.training_areas?.length ? (
+                  <ul className="mt-6 flex flex-wrap gap-2">
+                    {leadTrainer.training_areas.slice(0, 6).map((area) => (
+                      <li
+                        key={area}
+                        className="rounded-full bg-lavender px-3 py-1 text-xs font-medium text-lavender-foreground"
+                      >
+                        {area}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            </Reveal>
+          ) : null}
+          {restTrainers.length ? (
+            <div className="mt-6 -mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 lg:grid-cols-5">
+              {restTrainers.slice(0, 5).map((t) => (
+                <div key={t.id} className="snap-start">
+                  <TrainerCard compact name={t.name} title={t.position || t.professional_title} photo={t.photo_url} />
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </Section>
+      ) : null}
+
+      {/* ---------------- Institutions ---------------- */}
+      {institutionList.length ? (
+        <Section tone="lavender">
+          <SectionHeading
+            eyebrow="Trusted by"
+            title="Selected institutions where Limra has conducted training"
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {institutionList.map((i) => (
+              <InstitutionCard
+                key={i.id}
+                name={i.name}
+                logo={i.logo_url}
+                meta={[i.city, i.country_name].filter(Boolean).join(", ") || i.institution_type}
+              />
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            {remainingInstitutions ? (
+              <p className="text-sm text-muted-foreground">+ {remainingInstitutions} more institutions</p>
+            ) : null}
+            <SecondaryButton to="/institutions" size="default">
+              View all institutions
+            </SecondaryButton>
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ---------------- Gallery ---------------- */}
+      {gallery.length ? (
+        <Section tone="white">
+          <SectionHeading
+            eyebrow="Gallery"
+            title="Inside a Limra workshop"
+            action={
+              <SecondaryButton to="/gallery" size="default">
+                Full gallery <ArrowRight className="ml-1.5 size-4" />
+              </SecondaryButton>
+            }
+          />
+          <div className="mt-12">
+            <GalleryGrid images={gallery} />
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ---------------- Testimonials ---------------- */}
+      {testimonials.length ? (
+        <Section tone="lavender">
+          <SectionHeading eyebrow="Feedback" title="What participants say" align="center" />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.slice(0, 3).map((t, i) => (
+              <Reveal as="article" key={t.id} delay={i * 70} className="rounded-2xl border border-border bg-card p-6">
+                <Quote className="size-5 text-primary/40" />
+                <p className="mt-4 text-sm leading-relaxed">{t.quote}</p>
+                <div className="mt-5 border-t border-border pt-4">
+                  <p className="text-sm font-semibold">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {[t.designation, t.organization, t.country].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ---------------- Final CTA ---------------- */}
+      <CTASection
+        title={map["final_cta"]?.heading || "Bring Limra Academy to your institution"}
+        body={
+          map["final_cta"]?.subheading ||
+          "Whether you are looking for student development, teacher training or corporate learning, let's create a workshop around your needs."
+        }
+        whatsappHref={wa}
+      />
+
+      <div className="sr-only">
+        <Link to="/workshops">Upcoming workshops</Link>
+      </div>
     </PublicLayout>
   );
 }
