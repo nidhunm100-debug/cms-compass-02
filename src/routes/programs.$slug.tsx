@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { EmptyState, PageHeader, PublicLayout } from "@/components/site/PublicLayout";
 import { sanitizeHtml } from "@/lib/sanitize";
+import type { Program } from "@/lib/public-cms";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -64,7 +65,7 @@ function ProgramDetailPage() {
       ]);
 
       return {
-        program: program as Record<string, any>,
+        program: program as unknown as Program,
         trainers: (trainers.data ?? []) as { id: string; name: string; professional_title: string | null; photo_url: string | null }[],
         topics: (topics.data ?? []) as { id: string; name: string }[],
         countries: (countries.data ?? []) as { id: string; name: string; flag_emoji: string | null }[],

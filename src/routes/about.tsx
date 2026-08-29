@@ -25,8 +25,8 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   const { data: sections } = useHomepageSections();
-  const about = sections?.map.about;
-  const why = sections?.map.why_limra;
+  const about = sections?.map["about"];
+  const why = sections?.map["why_limra"];
   const { data: topics = [] } = useTrainingTopics();
 
   return (

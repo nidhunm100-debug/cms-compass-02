@@ -15,8 +15,26 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GlobalReachRouteImport } from './routes/global-reach'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrainersRouteImport } from './routes/trainers'
 import { Route as WorkshopsRouteImport } from './routes/workshops'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminCountriesRouteImport } from './routes/admin.countries'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
+import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
+import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminNavigationRouteImport } from './routes/admin.navigation'
+import { Route as AdminProgramsRouteImport } from './routes/admin.programs'
+import { Route as AdminSeoRouteImport } from './routes/admin.seo'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
+import { Route as AdminTopicsRouteImport } from './routes/admin.topics'
+import { Route as AdminTrainersRouteImport } from './routes/admin.trainers'
+import { Route as AdminWorkshopsRouteImport } from './routes/admin.workshops'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
 
@@ -50,6 +68,11 @@ const InstitutionsRoute = InstitutionsRouteImport.update({
   path: '/institutions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainersRoute = TrainersRouteImport.update({
   id: '/trainers',
   path: '/trainers',
@@ -58,6 +81,91 @@ const TrainersRoute = TrainersRouteImport.update({
 const WorkshopsRoute = WorkshopsRouteImport.update({
   id: '/workshops',
   path: '/workshops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCountriesRoute = AdminCountriesRouteImport.update({
+  id: '/admin/countries',
+  path: '/admin/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
+  id: '/admin/enquiries',
+  path: '/admin/enquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/admin/gallery',
+  path: '/admin/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageRoute = AdminHomepageRouteImport.update({
+  id: '/admin/homepage',
+  path: '/admin/homepage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
+  id: '/admin/institutions',
+  path: '/admin/institutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/admin/media',
+  path: '/admin/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminNavigationRoute = AdminNavigationRouteImport.update({
+  id: '/admin/navigation',
+  path: '/admin/navigation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProgramsRoute = AdminProgramsRouteImport.update({
+  id: '/admin/programs',
+  path: '/admin/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/admin/seo',
+  path: '/admin/seo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/admin/testimonials',
+  path: '/admin/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTopicsRoute = AdminTopicsRouteImport.update({
+  id: '/admin/topics',
+  path: '/admin/topics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTrainersRoute = AdminTrainersRouteImport.update({
+  id: '/admin/trainers',
+  path: '/admin/trainers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWorkshopsRoute = AdminWorkshopsRouteImport.update({
+  id: '/admin/workshops',
+  path: '/admin/workshops',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
@@ -78,9 +186,27 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/institutions': typeof InstitutionsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
   '/workshops': typeof WorkshopsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/countries': typeof AdminCountriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/navigation': typeof AdminNavigationRoute
+  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/trainers': typeof AdminTrainersRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -90,9 +216,27 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/institutions': typeof InstitutionsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
   '/workshops': typeof WorkshopsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/countries': typeof AdminCountriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/navigation': typeof AdminNavigationRoute
+  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/trainers': typeof AdminTrainersRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/programs': typeof ProgramsIndexRoute
 }
 export interface FileRoutesById {
@@ -103,9 +247,27 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/institutions': typeof InstitutionsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/trainers': typeof TrainersRoute
   '/workshops': typeof WorkshopsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/countries': typeof AdminCountriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/homepage': typeof AdminHomepageRoute
+  '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/navigation': typeof AdminNavigationRoute
+  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/trainers': typeof AdminTrainersRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRouteTypes {
@@ -117,9 +279,27 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/global-reach'
     | '/institutions'
+    | '/reset-password'
     | '/trainers'
     | '/workshops'
+    | '/admin/analytics'
+    | '/admin/countries'
+    | '/admin/dashboard'
+    | '/admin/enquiries'
+    | '/admin/gallery'
+    | '/admin/homepage'
+    | '/admin/institutions'
+    | '/admin/media'
+    | '/admin/navigation'
+    | '/admin/programs'
+    | '/admin/seo'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/topics'
+    | '/admin/trainers'
+    | '/admin/workshops'
     | '/programs/$slug'
+    | '/admin/'
     | '/programs/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -129,9 +309,27 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/global-reach'
     | '/institutions'
+    | '/reset-password'
     | '/trainers'
     | '/workshops'
+    | '/admin/analytics'
+    | '/admin/countries'
+    | '/admin/dashboard'
+    | '/admin/enquiries'
+    | '/admin/gallery'
+    | '/admin/homepage'
+    | '/admin/institutions'
+    | '/admin/media'
+    | '/admin/navigation'
+    | '/admin/programs'
+    | '/admin/seo'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/topics'
+    | '/admin/trainers'
+    | '/admin/workshops'
     | '/programs/$slug'
+    | '/admin'
     | '/programs'
   id:
     | '__root__'
@@ -141,9 +339,27 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/global-reach'
     | '/institutions'
+    | '/reset-password'
     | '/trainers'
     | '/workshops'
+    | '/admin/analytics'
+    | '/admin/countries'
+    | '/admin/dashboard'
+    | '/admin/enquiries'
+    | '/admin/gallery'
+    | '/admin/homepage'
+    | '/admin/institutions'
+    | '/admin/media'
+    | '/admin/navigation'
+    | '/admin/programs'
+    | '/admin/seo'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/topics'
+    | '/admin/trainers'
+    | '/admin/workshops'
     | '/programs/$slug'
+    | '/admin/'
     | '/programs/'
   fileRoutesById: FileRoutesById
 }
@@ -154,9 +370,27 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   GlobalReachRoute: typeof GlobalReachRoute
   InstitutionsRoute: typeof InstitutionsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TrainersRoute: typeof TrainersRoute
   WorkshopsRoute: typeof WorkshopsRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCountriesRoute: typeof AdminCountriesRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminEnquiriesRoute: typeof AdminEnquiriesRoute
+  AdminGalleryRoute: typeof AdminGalleryRoute
+  AdminHomepageRoute: typeof AdminHomepageRoute
+  AdminInstitutionsRoute: typeof AdminInstitutionsRoute
+  AdminMediaRoute: typeof AdminMediaRoute
+  AdminNavigationRoute: typeof AdminNavigationRoute
+  AdminProgramsRoute: typeof AdminProgramsRoute
+  AdminSeoRoute: typeof AdminSeoRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminTopicsRoute: typeof AdminTopicsRoute
+  AdminTrainersRoute: typeof AdminTrainersRoute
+  AdminWorkshopsRoute: typeof AdminWorkshopsRoute
   ProgramsSlugRoute: typeof ProgramsSlugRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
 }
 
@@ -204,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstitutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trainers': {
       id: '/trainers'
       path: '/trainers'
@@ -216,6 +457,125 @@ declare module '@tanstack/react-router' {
       path: '/workshops'
       fullPath: '/workshops'
       preLoaderRoute: typeof WorkshopsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/countries': {
+      id: '/admin/countries'
+      path: '/admin/countries'
+      fullPath: '/admin/countries'
+      preLoaderRoute: typeof AdminCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/enquiries': {
+      id: '/admin/enquiries'
+      path: '/admin/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AdminEnquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage': {
+      id: '/admin/homepage'
+      path: '/admin/homepage'
+      fullPath: '/admin/homepage'
+      preLoaderRoute: typeof AdminHomepageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/institutions': {
+      id: '/admin/institutions'
+      path: '/admin/institutions'
+      fullPath: '/admin/institutions'
+      preLoaderRoute: typeof AdminInstitutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/admin/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/navigation': {
+      id: '/admin/navigation'
+      path: '/admin/navigation'
+      fullPath: '/admin/navigation'
+      preLoaderRoute: typeof AdminNavigationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/programs': {
+      id: '/admin/programs'
+      path: '/admin/programs'
+      fullPath: '/admin/programs'
+      preLoaderRoute: typeof AdminProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/admin/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/admin/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/topics': {
+      id: '/admin/topics'
+      path: '/admin/topics'
+      fullPath: '/admin/topics'
+      preLoaderRoute: typeof AdminTopicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/trainers': {
+      id: '/admin/trainers'
+      path: '/admin/trainers'
+      fullPath: '/admin/trainers'
+      preLoaderRoute: typeof AdminTrainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/workshops': {
+      id: '/admin/workshops'
+      path: '/admin/workshops'
+      fullPath: '/admin/workshops'
+      preLoaderRoute: typeof AdminWorkshopsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/programs/': {
@@ -242,9 +602,27 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   GlobalReachRoute: GlobalReachRoute,
   InstitutionsRoute: InstitutionsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TrainersRoute: TrainersRoute,
   WorkshopsRoute: WorkshopsRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCountriesRoute: AdminCountriesRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminEnquiriesRoute: AdminEnquiriesRoute,
+  AdminGalleryRoute: AdminGalleryRoute,
+  AdminHomepageRoute: AdminHomepageRoute,
+  AdminInstitutionsRoute: AdminInstitutionsRoute,
+  AdminMediaRoute: AdminMediaRoute,
+  AdminNavigationRoute: AdminNavigationRoute,
+  AdminProgramsRoute: AdminProgramsRoute,
+  AdminSeoRoute: AdminSeoRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminTopicsRoute: AdminTopicsRoute,
+  AdminTrainersRoute: AdminTrainersRoute,
+  AdminWorkshopsRoute: AdminWorkshopsRoute,
   ProgramsSlugRoute: ProgramsSlugRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
 }
 export const routeTree = rootRouteImport
