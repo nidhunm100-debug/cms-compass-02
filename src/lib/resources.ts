@@ -11,9 +11,72 @@ export const COUNTRY_OPTIONS = [
   "Other",
 ];
 
+export const PERSON_TYPES = [
+  "Director – Training",
+  "Senior Trainer",
+  "Trainer",
+  "Expert",
+  "Speaker",
+  "Consultant",
+  "Other",
+];
+
+export const PROGRAM_CATEGORIES = [
+  "Student Development",
+  "Teacher Development",
+  "Corporate & Professional Development",
+  "Personal Effectiveness",
+  "Communication & Leadership",
+  "Cognitive & Memory Training",
+  "Teaching & Education Skills",
+  "Other Professional Training",
+];
+
+export const TOPIC_GROUPS = [
+  "Focus & Concentration",
+  "Memory & Brain",
+  "Study & Academic Skills",
+  "Personal Development",
+  "Future & Career",
+  "Teaching & Communication",
+  "Engagement & Motivation",
+  "Classroom Management",
+  "Assessment & Curriculum",
+  "Professional Skills",
+  "Cognitive Skills",
+  "Communication",
+  "Leadership & People",
+  "Thinking",
+  "Professional Development",
+  "Other",
+];
+
+export const EXPERTISE_CATEGORIES = [
+  "Super Memory",
+  "Brain Gym",
+  "Concentration",
+  "Scientific Study Methods",
+  "Attitude Development",
+  "Communication Skills",
+  "Body Language",
+  "Leadership",
+  "NLP",
+  "Lateral Thinking",
+  "Placement Support",
+  "Effective Teaching",
+  "TESOL / TKT",
+  "Personality Development",
+  "Graphology",
+  "Teamwork",
+  "Work Ethics",
+  "Stress Management",
+];
+
 export const INSTITUTION_TYPES = ["School", "College", "University", "Corporate", "Other"];
 
 export const GALLERY_CATEGORIES = [
+  "Student Training",
+  "Teacher Training",
   "Student Workshops",
   "Teacher Workshops",
   "Corporate Training",
@@ -25,22 +88,26 @@ export const GALLERY_CATEGORIES = [
 
 export const trainersResource: ResourceConfig = {
   table: "trainers",
-  title: "Trainers",
-  singular: "Trainer",
-  description: "Trainers marked as published appear on the public Trainers page.",
+  title: "People / Trainers & Experts",
+  singular: "Person",
+  description:
+    "Every published person appears on the public Trainers & Experts page. Add trainers, senior trainers, experts or speakers here.",
   listPrimary: "name",
-  listSecondary: ["professional_title", "qualification"],
+  listSecondary: ["person_type", "professional_title", "qualification"],
   imageColumn: "photo_url",
-  searchColumns: ["name", "professional_title", "qualification", "position", "short_bio"],
+  searchColumns: ["name", "person_type", "professional_title", "qualification", "position", "short_bio"],
+  filters: [{ column: "person_type", label: "Person type", options: PERSON_TYPES }],
   orderColumn: "display_order",
   publishColumn: "published",
   featuredColumn: "featured",
   softDelete: true,
   previewPath: "/trainers",
   emptyTitle: "No trainers added yet.",
-  emptyBody: "Add your first trainer to show them on the public Trainers page.",
+  emptyBody: "Add your first person to show them on the public Trainers & Experts page.",
+  defaultValues: { person_type: "Trainer" },
   fields: [
     { name: "name", label: "Name", type: "text", required: true, placeholder: "Dr. K. Akbar Hussain" },
+    { name: "person_type", label: "Person type", type: "select", options: PERSON_TYPES, required: true },
     { name: "professional_title", label: "Professional title", type: "text", placeholder: "Corporate & Education Trainer" },
     { name: "qualification", label: "Qualification", type: "text", placeholder: "MSc, MS, D.Litt." },
     { name: "position", label: "Position", type: "text", placeholder: "Director, Limra Academy" },
@@ -48,7 +115,13 @@ export const trainersResource: ResourceConfig = {
     { name: "full_bio", label: "Full biography", type: "richtext" },
     { name: "photo_url", label: "Profile photo", type: "image", mediaCategory: "Trainers" },
     { name: "additional_photos", label: "Additional photos", type: "gallery", mediaCategory: "Trainers" },
-    { name: "training_areas", label: "Training areas", type: "tags", placeholder: "Super Memory, Brain Gym" },
+    {
+      name: "training_areas",
+      label: "Expertise / training areas",
+      type: "tags",
+      placeholder: "Super Memory, Brain Gym",
+      help: "Type any expertise category. Suggested: " + EXPERTISE_CATEGORIES.slice(0, 8).join(", ") + "…",
+    },
     { name: "regions", label: "Countries / regions", type: "tags", placeholder: "India, Malaysia" },
     { name: "email", label: "Email (optional)", type: "text" },
     { name: "phone", label: "Phone (optional)", type: "text" },
@@ -59,15 +132,18 @@ export const trainersResource: ResourceConfig = {
   ],
 };
 
+export const trainersDefaults = { person_type: "Trainer" };
+
 export const programsResource: ResourceConfig = {
   table: "programs",
   title: "Programs",
   singular: "Program",
   description: "Training programs shown on the public Programs page.",
   listPrimary: "name",
-  listSecondary: ["target_audience", "duration"],
+  listSecondary: ["category", "target_audience", "duration"],
   imageColumn: "image_url",
-  searchColumns: ["name", "short_description", "target_audience", "workshop_format"],
+  searchColumns: ["name", "category", "short_description", "target_audience", "workshop_format"],
+  filters: [{ column: "category", label: "Categories", options: PROGRAM_CATEGORIES }],
   orderColumn: "display_order",
   publishColumn: "published",
   featuredColumn: "featured",
@@ -79,6 +155,7 @@ export const programsResource: ResourceConfig = {
   fields: [
     { name: "name", label: "Program name", type: "text", required: true },
     { name: "slug", label: "URL slug", type: "text", placeholder: "train-the-brain", help: "Used in the page address." },
+    { name: "category", label: "Category", type: "select", options: PROGRAM_CATEGORIES },
     { name: "short_description", label: "Short description", type: "textarea" },
     { name: "full_description", label: "Full description", type: "richtext" },
     { name: "target_audience", label: "Target audience", type: "text", placeholder: "School students of VII - XII" },
@@ -121,8 +198,12 @@ export const topicsResource: ResourceConfig = {
   singular: "Topic",
   description: "Reusable topics you can attach to any program.",
   listPrimary: "name",
-  listSecondary: ["category", "description"],
-  searchColumns: ["name", "description", "category"],
+  listSecondary: ["category", "topic_group", "description"],
+  searchColumns: ["name", "description", "category", "topic_group"],
+  filters: [
+    { column: "category", label: "Categories", options: PROGRAM_CATEGORIES },
+    { column: "topic_group", label: "Groups", options: TOPIC_GROUPS },
+  ],
   orderColumn: "display_order",
   publishColumn: "published",
   softDelete: true,
@@ -132,7 +213,14 @@ export const topicsResource: ResourceConfig = {
     { name: "name", label: "Topic name", type: "text", required: true },
     { name: "description", label: "Description", type: "textarea" },
     { name: "icon", label: "Icon name", type: "text", placeholder: "brain", help: "Optional Lucide icon name." },
-    { name: "category", label: "Category", type: "text", placeholder: "Students / Teachers / Corporate" },
+    { name: "category", label: "Category", type: "select", options: PROGRAM_CATEGORIES },
+    {
+      name: "topic_group",
+      label: "Group heading",
+      type: "select",
+      options: TOPIC_GROUPS,
+      help: "Topics are shown grouped under this heading on program pages.",
+    },
     { name: "display_order", label: "Display order", type: "number" },
     { name: "published", label: "Published", type: "switch" },
   ],
@@ -339,6 +427,30 @@ export const workshopsResource: ResourceConfig = {
     { name: "gallery_images", label: "Gallery", type: "gallery", mediaCategory: "Events" },
     { name: "registration_link", label: "Registration link", type: "text" },
     { name: "status", label: "Status", type: "select", options: ["Upcoming", "Completed", "Cancelled", "Draft"] },
+    { name: "display_order", label: "Display order", type: "number" },
+    { name: "published", label: "Published", type: "switch" },
+  ],
+};
+
+export const impactStatsResource: ResourceConfig = {
+  table: "impact_stats",
+  title: "Impact Statistics",
+  singular: "Statistic",
+  description: "The numbers shown on the homepage and Our Impact page. Nothing here changes automatically.",
+  listPrimary: "value",
+  listSecondary: ["label", "description"],
+  searchColumns: ["value", "label", "description"],
+  orderColumn: "display_order",
+  publishColumn: "published",
+  softDelete: true,
+  previewPath: "/impact",
+  emptyTitle: "No statistics yet.",
+  emptyBody: "Add a statistic, for example 26 Lakh+ School Students.",
+  fields: [
+    { name: "value", label: "Number", type: "text", required: true, placeholder: "26 Lakh+" },
+    { name: "label", label: "Label", type: "text", required: true, placeholder: "School Students" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "icon", label: "Icon name", type: "text", placeholder: "users", help: "Optional Lucide icon name." },
     { name: "display_order", label: "Display order", type: "number" },
     { name: "published", label: "Published", type: "switch" },
   ],
