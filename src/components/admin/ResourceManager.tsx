@@ -54,7 +54,7 @@ import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { cn } from "@/lib/utils";
 
 type Row = {
-  id: string;
+  id?: string;
   created_at?: string;
   updated_at?: string;
   slug?: string | null;
