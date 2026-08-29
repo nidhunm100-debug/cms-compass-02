@@ -56,6 +56,7 @@ export type HomepageSection = {
 export type Trainer = {
   id: string;
   name: string;
+  person_type: string | null;
   professional_title: string | null;
   qualification: string | null;
   position: string | null;
@@ -72,6 +73,7 @@ export type Program = {
   id: string;
   slug: string | null;
   name: string;
+  category: string | null;
   short_description: string | null;
   full_description: string | null;
   target_audience: string | null;
@@ -83,6 +85,15 @@ export type Program = {
   cta_link: string | null;
   featured: boolean;
 };
+
+export type ImpactStat = {
+  id: string;
+  value: string;
+  label: string;
+  description: string | null;
+  icon: string | null;
+};
+
 
 export type Institution = {
   id: string;
