@@ -138,8 +138,8 @@ function GroupEditor({ group }: { group: (typeof GROUPS)[number] }) {
             ) : field.type === "image" ? (
               <ImagePicker
                 value={values[field.name] ?? null}
-                onChange={(url) => setValues((prev) => ({ ...prev, [field.name]: url ?? "" }))}
-                category="Homepage"
+                onChange={(url) => setValues((prev) => ({ ...prev, [field.name]: typeof url === "string" ? url : "" }))}
+                defaultCategory="Homepage"
               />
             ) : (
               <Input

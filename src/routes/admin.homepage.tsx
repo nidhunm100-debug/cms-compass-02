@@ -128,8 +128,8 @@ function SectionEditor({ section }: { section: Section }) {
         <Label>Section image</Label>
         <ImagePicker
           value={draft.image_url}
-          onChange={(url) => set("image_url", url)}
-          category="Homepage"
+          onChange={(url) => set("image_url", typeof url === "string" ? url : null)}
+          defaultCategory="Homepage"
         />
       </div>
 
