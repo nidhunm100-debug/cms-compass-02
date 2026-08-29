@@ -315,12 +315,21 @@ export function PageHeader({
   intro?: string | null | undefined;
 }) {
   return (
-    <section className="bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24">
-        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        <h1 className="text-balance-tight mt-3 max-w-3xl text-4xl sm:text-5xl lg:text-6xl">{title}</h1>
+    <section className="relative overflow-hidden bg-surface">
+      <span
+        aria-hidden
+        className="glow-purple pointer-events-none absolute -top-24 -right-16 size-72 rounded-full opacity-60"
+      />
+      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+        {eyebrow ? (
+          <p className="eyebrow flex items-center gap-3">
+            <span aria-hidden className="inline-block h-px w-8 bg-primary/50" />
+            {eyebrow}
+          </p>
+        ) : null}
+        <h1 className="display-lg text-balance-tight mt-6 max-w-4xl">{title}</h1>
         {intro ? (
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">{intro}</p>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{intro}</p>
         ) : null}
       </div>
     </section>
