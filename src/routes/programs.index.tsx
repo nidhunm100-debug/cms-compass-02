@@ -26,6 +26,7 @@ export const Route = createFileRoute("/programs/")({
 
 function ProgramsPage() {
   const { data: programs = [], isLoading } = usePrograms();
+  const categories = Array.from(new Set(programs.map((p) => p.category).filter(Boolean))) as string[];
 
   return (
     <PublicLayout>
