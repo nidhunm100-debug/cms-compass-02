@@ -141,6 +141,7 @@ function HomePage() {
   const remainingInstitutions = Math.max(allInstitutions.length - institutionList.length, 0);
 
   const studentTopics = topics.filter((t) => (t.category ?? "").toLowerCase().includes("student"));
+  const ttbTopics = Array.from(new Set([...studentTopics.map((t) => t.name), ...TTB_TOPICS])).slice(0, 6);
   const audienceImages = [
     map["programs"]?.image_url,
     map["why_limra"]?.image_url,
@@ -295,7 +296,7 @@ function HomePage() {
           </Reveal>
           <Reveal className="min-w-0" delay={100}>
             <ul className="grid gap-3 sm:grid-cols-2">
-              {(studentTopics.length ? studentTopics.map((t) => t.name) : TTB_TOPICS).slice(0, 6).map((name) => (
+              {ttbTopics.map((name) => (
                 <li key={name} className="rounded-2xl border border-border bg-card px-4 py-4 text-sm font-medium">
                   {name}
                 </li>
@@ -395,7 +396,7 @@ function HomePage() {
           />
           {leadTrainer ? (
             <Reveal className="mt-12 grid items-center gap-8 rounded-3xl border border-border bg-surface p-6 sm:p-8 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)] lg:gap-12 lg:p-10">
-              <div className="min-w-0">
+              <div className="mx-auto w-full max-w-xs min-w-0 lg:mx-0 lg:max-w-none">
                 {leadTrainer.photo_url ? (
                   <img
                     src={leadTrainer.photo_url}
