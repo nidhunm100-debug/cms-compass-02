@@ -299,6 +299,45 @@ export type Database = {
         }
         Relationships: []
       }
+      impact_stats: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          display_order: number
+          icon: string | null
+          id: string
+          label: string
+          published: boolean
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          label: string
+          published?: boolean
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          label?: string
+          published?: boolean
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       institutions: {
         Row: {
           address: string | null
@@ -602,6 +641,7 @@ export type Database = {
       }
       programs: {
         Row: {
+          category: string | null
           created_at: string
           cta_link: string | null
           cta_text: string | null
@@ -622,6 +662,7 @@ export type Database = {
           workshop_format: string | null
         }
         Insert: {
+          category?: string | null
           created_at?: string
           cta_link?: string | null
           cta_text?: string | null
@@ -642,6 +683,7 @@ export type Database = {
           workshop_format?: string | null
         }
         Update: {
+          category?: string | null
           created_at?: string
           cta_link?: string | null
           cta_text?: string | null
@@ -797,6 +839,7 @@ export type Database = {
           id: string
           linkedin_url: string | null
           name: string
+          person_type: string
           phone: string | null
           photo_url: string | null
           position: string | null
@@ -820,6 +863,7 @@ export type Database = {
           id?: string
           linkedin_url?: string | null
           name: string
+          person_type?: string
           phone?: string | null
           photo_url?: string | null
           position?: string | null
@@ -843,6 +887,7 @@ export type Database = {
           id?: string
           linkedin_url?: string | null
           name?: string
+          person_type?: string
           phone?: string | null
           photo_url?: string | null
           position?: string | null
@@ -868,6 +913,7 @@ export type Database = {
           id: string
           name: string
           published: boolean
+          topic_group: string | null
           updated_at: string
         }
         Insert: {
@@ -880,6 +926,7 @@ export type Database = {
           id?: string
           name: string
           published?: boolean
+          topic_group?: string | null
           updated_at?: string
         }
         Update: {
@@ -892,6 +939,7 @@ export type Database = {
           id?: string
           name?: string
           published?: boolean
+          topic_group?: string | null
           updated_at?: string
         }
         Relationships: []
