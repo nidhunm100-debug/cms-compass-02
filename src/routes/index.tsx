@@ -176,11 +176,20 @@ function HomePage() {
     return grouped;
   }, [allInstitutions]);
 
-  const audienceImages = [
-    map["programs"]?.image_url ?? gallery[0]?.image_url ?? null,
-    map["teacher_training"]?.image_url ?? gallery[1]?.image_url ?? null,
-    map["corporate_training"]?.image_url ?? gallery[2]?.image_url ?? null,
-  ];
+  const audienceImages = useMemo(() => {
+    const pool = [
+      map["programs"]?.image_url,
+      map["teacher_training"]?.image_url,
+      map["corporate_training"]?.image_url,
+      map["why_limra"]?.image_url,
+      map["about"]?.image_url,
+      map["institutions"]?.image_url,
+      ...gallery.map((g) => g.image_url),
+      ...allPrograms.map((p) => p.image_url),
+    ].filter((u): u is string => !!u);
+    const unique = Array.from(new Set(pool));
+    return [unique[0] ?? null, unique[1] ?? unique[0] ?? null, unique[2] ?? unique[0] ?? null];
+  }, [sections, gallery, allPrograms]);
 
   return (
     <PublicLayout overlay>
@@ -354,8 +363,8 @@ function HomePage() {
                       {p.workshop_format ? <span>{p.workshop_format}</span> : null}
                     </span>
                   </span>
-                  <span className="relative hidden h-24 overflow-hidden rounded-2xl bg-lavender sm:block">
-                    {p.image_url ? (
+                  {p.image_url ? (
+                    <span className="relative hidden h-24 overflow-hidden rounded-2xl bg-lavender sm:block">
                       <img
                         src={p.image_url}
                         alt=""
@@ -363,8 +372,15 @@ function HomePage() {
                         loading="lazy"
                         className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                    ) : null}
-                  </span>
+                    </span>
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="font-display hidden text-right text-sm font-bold text-primary/0 transition-colors duration-300 group-hover:text-primary sm:block"
+                    >
+                      View program
+                    </span>
+                  )}
                 </Link>
               </Rise>
             ))}

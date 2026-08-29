@@ -509,14 +509,14 @@ export function TrainerCarousel({
 /* ------------------------------------------------------------------ */
 
 const MAP_POSITIONS: Record<string, { x: number; y: number }> = {
-  india: { x: 66, y: 55 },
-  malaysia: { x: 76, y: 65 },
-  singapore: { x: 76, y: 69 },
-  uae: { x: 58, y: 52 },
-  "united arab emirates": { x: 58, y: 52 },
-  indonesia: { x: 81, y: 71 },
-  vietnam: { x: 79, y: 57 },
-  "sri lanka": { x: 68, y: 65 },
+  india: { x: 60, y: 44 },
+  malaysia: { x: 76, y: 62 },
+  singapore: { x: 82, y: 72 },
+  uae: { x: 42, y: 46 },
+  "united arab emirates": { x: 42, y: 46 },
+  indonesia: { x: 90, y: 80 },
+  vietnam: { x: 74, y: 44 },
+  "sri lanka": { x: 60, y: 66 },
 };
 
 export function GlobalReach({
