@@ -106,6 +106,7 @@ export type Institution = {
   logo_url: string | null;
   cover_image_url: string | null;
   training_conducted: string | null;
+  training_category: string | null;
   year: number | null;
   description: string | null;
   featured: boolean;
@@ -270,7 +271,7 @@ export function useInstitutions(options: { featured?: boolean } = {}) {
       let q = supabase
         .from("institutions")
         .select(
-          "id, name, institution_type, country_name, state_region, city, website_url, logo_url, cover_image_url, training_conducted, year, description, featured",
+          "id, name, institution_type, country_name, state_region, city, website_url, logo_url, cover_image_url, training_conducted, training_category, year, description, featured",
         )
         .eq("published", true)
         .is("deleted_at", null)

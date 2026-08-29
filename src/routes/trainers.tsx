@@ -33,6 +33,8 @@ function TrainersPage() {
   const { data: trainers = [], isLoading } = useTrainers();
   const [search, setSearch] = useState("");
   const [active, setActive] = useState<string | null>(null);
+  const [area, setArea] = useState("all");
+  const areaOptions = Array.from(new Set(trainers.flatMap((t) => t.training_areas ?? []).filter(Boolean))).sort();
 
   const term = search.trim().toLowerCase();
   const filtered = term
@@ -42,6 +44,11 @@ function TrainersPage() {
           .some((v) => String(v).toLowerCase().includes(term)),
       )
     : trainers;
+  const visible = area === "all" ? filtered : filtered.filter((t) => (t.training_areas ?? []).includes(area));
+  const ORDER = ["Director", "Senior Trainer", "Trainer"];
+  const groups = ORDER.map((role) => ({ role, list: visible.filter((t) => t.person_type === role) }))
+    .concat([{ role: "Team", list: visible.filter((t) => !ORDER.includes(t.person_type ?? "")) }])
+    .filter((g) => g.list.length);
 
   const activeTrainer = trainers.find((t) => t.id === active) ?? null;
 
@@ -60,11 +67,35 @@ function TrainersPage() {
           />
         </div>
 
+        {areaOptions.length ? (
+          <div className="mb-8 flex flex-wrap gap-2">
+            {["all", ...areaOptions].map((a) => (
+              <button
+                key={a}
+                type="button"
+                onClick={() => setArea(a)}
+                className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                  area === a
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
+                }`}
+              >
+                {a === "all" ? "All expertise" : a}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading trainers…</p>
-        ) : filtered.length ? (
+        ) : visible.length ? (
+          groups.map((group) => (
+          <div key={group.role} className="mb-14 last:mb-0">
+            <h2 className="mb-6 font-display text-sm font-bold tracking-[0.18em] text-violet uppercase">
+              {group.role}
+            </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((trainer) => (
+            {group.list.map((trainer) => (
               <article key={trainer.id} className="overflow-hidden rounded-lg border border-border bg-card">
                 {trainer.photo_url ? (
                   <img
@@ -77,7 +108,7 @@ function TrainersPage() {
                   <div className="aspect-4/5 w-full bg-muted" />
                 )}
                 <div className="space-y-2 p-5">
-                  <h2 className="font-display text-xl">{trainer.name}</h2>
+                  <h3 className="font-display text-xl">{trainer.name}</h3>
                   {trainer.professional_title ? (
                     <p className="text-sm text-muted-foreground">{trainer.professional_title}</p>
                   ) : null}
@@ -110,6 +141,8 @@ function TrainersPage() {
               </article>
             ))}
           </div>
+          </div>
+          ))
         ) : (
           <EmptyState
             title={term ? "No trainers match your search." : "No trainers published yet."}
