@@ -422,3 +422,39 @@ export function useSeo(pageKey: string) {
     },
   });
 }
+
+export type Credential = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  image_url: string;
+  issuing_organization: string | null;
+  certificate_date: string | null;
+  year: number | null;
+  category: string | null;
+  alt_text: string | null;
+  featured: boolean;
+  show_on_homepage: boolean;
+  show_on_credentials_page: boolean;
+};
+
+export function useCredentials(options: { featured?: boolean; homepage?: boolean } = {}) {
+  return useQuery({
+    queryKey: ["public", "credentials", options.featured ?? false, options.homepage ?? false],
+    queryFn: async () => {
+      let q = supabase
+        .from("credentials")
+        .select(
+          "id, title, description, image_url, issuing_organization, certificate_date, year, category, alt_text, featured, show_on_homepage, show_on_credentials_page",
+        )
+        .eq("published", true)
+        .is("deleted_at", null)
+        .order("display_order");
+      if (options.featured) q = q.eq("featured", true);
+      if (options.homepage) q = q.eq("show_on_homepage", true);
+      const { data, error } = await q;
+      if (error) throw error;
+      return (data ?? []) as Credential[];
+    },
+  });
+}
