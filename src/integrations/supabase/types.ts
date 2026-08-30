@@ -65,6 +65,77 @@ export type Database = {
         }
         Relationships: []
       }
+      credentials: {
+        Row: {
+          alt_text: string | null
+          category: string | null
+          certificate_date: string | null
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          display_order: number
+          featured: boolean
+          id: string
+          image_url: string
+          issuing_organization: string | null
+          media_id: string | null
+          published: boolean
+          show_on_credentials_page: boolean
+          show_on_homepage: boolean
+          title: string | null
+          updated_at: string
+          year: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          category?: string | null
+          certificate_date?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_url: string
+          issuing_organization?: string | null
+          media_id?: string | null
+          published?: boolean
+          show_on_credentials_page?: boolean
+          show_on_homepage?: boolean
+          title?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          category?: string | null
+          certificate_date?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_url?: string
+          issuing_organization?: string | null
+          media_id?: string | null
+          published?: boolean
+          show_on_credentials_page?: boolean
+          show_on_homepage?: boolean
+          title?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credentials_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       enquiries: {
         Row: {
           country: string | null
