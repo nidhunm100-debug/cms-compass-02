@@ -81,7 +81,7 @@ function ProgramDetailPage() {
   if (isLoading) {
     return (
       <PublicLayout>
-        <div className="mx-auto max-w-4xl px-4 py-24 text-sm text-muted-foreground">Loading program…</div>
+        <div className="mx-auto max-w-4xl px-5 py-16 text-sm text-muted-foreground">Loading program…</div>
       </PublicLayout>
     );
   }
@@ -89,7 +89,7 @@ function ProgramDetailPage() {
   if (!data) {
     return (
       <PublicLayout>
-        <div className="mx-auto max-w-3xl px-4 py-24">
+        <div className="mx-auto max-w-3xl px-5 py-16">
           <EmptyState title="Program not found." body="This program may be unpublished or the link has changed." />
           <Button asChild className="mt-6">
             <Link to="/programs">Back to programs</Link>
@@ -105,7 +105,7 @@ function ProgramDetailPage() {
   return (
     <PublicLayout>
       <PageHeader eyebrow="Program" title={program.name} intro={program.short_description} />
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-14 lg:grid-cols-[2fr_1fr]">
+      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 sm:py-16 lg:grid-cols-[2fr_1fr]">
         <div>
           {program.image_url ? (
             <img

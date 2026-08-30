@@ -75,7 +75,7 @@ function InstitutionsPage() {
         title="Institutions We Have Trained"
         intro="Schools, colleges, universities and corporate organizations that have hosted Limra workshops."
       />
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16">
         <div className="mb-8 flex flex-col gap-2 sm:flex-row">
           <div className="relative flex-1">
             <Search className="absolute top-2.5 left-2.5 size-4 text-muted-foreground" />

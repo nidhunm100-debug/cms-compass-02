@@ -39,7 +39,7 @@ function GalleryPage() {
     <PublicLayout>
       <SeoHead pageKey="gallery" />
       <PageHeader eyebrow="Gallery" title="Moments from Our Workshops" intro="Real photographs from Limra training sessions." />
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16">
         {categories.length ? (
           <div className="mb-8 flex flex-wrap gap-2">
             <Button variant={filter === "all" ? "default" : "outline"} size="sm" onClick={() => setFilter("all")}>

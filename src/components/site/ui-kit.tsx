@@ -78,7 +78,7 @@ export function Section({
   } as const;
   return (
     <section id={id} className={cn(tones[tone], className)}>
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">{children}</div>
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">{children}</div>
     </section>
   );
 }
@@ -434,11 +434,11 @@ export function ProgramCard({
               </Button>
             </div>
           </div>
-          <div className="min-h-56">
-            {image ? (
-              <img src={image} alt={name} loading="lazy" className="size-full min-h-56 object-cover" />
-            ) : null}
-          </div>
+          {image ? (
+            <div className="aspect-16/10 lg:aspect-auto">
+              <img src={image} alt={name} loading="lazy" className="size-full object-cover" />
+            </div>
+          ) : null}
         </div>
       </Reveal>
     );
@@ -584,7 +584,7 @@ export function CTASection({
 }) {
   return (
     <section className="purple-gradient">
-      <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:py-24">
+      <div className="mx-auto max-w-4xl px-5 py-14 text-center sm:py-20">
         <h2 className="text-balance-tight text-3xl text-deep-purple-foreground sm:text-4xl lg:text-5xl">{title}</h2>
         {body ? (
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-deep-purple-foreground/80">{body}</p>

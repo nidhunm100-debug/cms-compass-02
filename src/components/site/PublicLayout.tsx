@@ -213,7 +213,7 @@ export function PublicLayout({ children, overlay }: { children: ReactNode; overl
 
 
       <footer className="bg-ink text-ink-foreground">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
           <div className="space-y-3">
             {footer.logo_url ? (
               <img src={footer.logo_url} alt={branding.site_name || "Limra Academy"} className="h-10 w-auto" />
@@ -320,27 +320,28 @@ export function PageHeader({
         aria-hidden
         className="glow-purple pointer-events-none absolute -top-24 -right-16 size-72 rounded-full opacity-60"
       />
-      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+      <div className="relative mx-auto max-w-7xl px-5 pt-10 pb-12 sm:px-8 sm:pt-14 sm:pb-16">
         {eyebrow ? (
           <p className="eyebrow flex items-center gap-3">
             <span aria-hidden className="inline-block h-px w-8 bg-primary/50" />
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="display-lg text-balance-tight mt-6 max-w-4xl">{title}</h1>
+        <h1 className="display-lg text-balance-tight mt-4 max-w-4xl">{title}</h1>
         {intro ? (
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{intro}</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{intro}</p>
         ) : null}
       </div>
     </section>
   );
 }
 
-export function EmptyState({ title, body }: { title: string; body: string }) {
+/** Compact inline empty state — never reserves large vertical space. */
+export function EmptyState({ title, body }: { title: string; body?: string | undefined }) {
   return (
-    <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center">
-      <p className="font-display text-lg font-bold">{title}</p>
-      <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 rounded-xl border border-dashed border-border bg-card px-4 py-3">
+      <p className="text-sm font-semibold">{title}</p>
+      {body ? <p className="text-sm text-muted-foreground">{body}</p> : null}
     </div>
   );
 }

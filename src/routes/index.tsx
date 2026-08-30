@@ -266,11 +266,11 @@ function HomePage() {
       <Shell tone="lavender" id="who-we-serve">
         <Rise>
           <Eyebrow>Who we serve</Eyebrow>
-          <h2 className="display-lg text-balance-tight mt-6 max-w-3xl">
+          <h2 className="display-lg text-balance-tight mt-4 max-w-3xl">
             Three audiences. One practical method.
           </h2>
         </Rise>
-        <div className="mt-14 grid gap-5 sm:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:grid-cols-3">
           {AUDIENCES.map((a, i) => (
             <AudiencePanel
               key={a.index}
@@ -294,7 +294,7 @@ function HomePage() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,0.5fr)] lg:items-end">
           <Rise>
             <Eyebrow invert>Flagship workshop</Eyebrow>
-            <h2 className="display-lg mt-6 text-dark-foreground">Train the Brain</h2>
+            <h2 className="display-lg mt-4 text-dark-foreground">Train the Brain</h2>
             <p className="mt-5 text-lg font-semibold text-bright-purple">
               Better focus. Stronger memory. Greater confidence.
             </p>
@@ -310,12 +310,12 @@ function HomePage() {
         </div>
 
         {ttbSkills.length ? (
-          <div className="mt-16">
+          <div className="mt-10">
             <SkillCloud items={ttbSkills} invert />
           </div>
         ) : null}
 
-        <div className="mt-14 flex flex-wrap items-center gap-4">
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <PrimaryButton to="/contact">Bring this workshop to your school</PrimaryButton>
           <Link to="/training-areas" className="link-underline text-sm font-semibold text-dark-foreground/85">
             All training areas
@@ -329,7 +329,7 @@ function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Rise>
               <Eyebrow>Programs</Eyebrow>
-              <h2 className="display-lg text-balance-tight mt-6 max-w-2xl">
+              <h2 className="display-lg text-balance-tight mt-4 max-w-2xl">
                 Programs built for a specific room.
               </h2>
             </Rise>
@@ -338,7 +338,7 @@ function HomePage() {
             </SecondaryButton>
           </div>
 
-          <ul className="mt-14 divide-y divide-border border-y border-border">
+          <ul className="mt-10 divide-y divide-border border-y border-border">
             {programList.map((p, i) => (
               <Rise as="li" key={p.id} delay={i * 70}>
                 <Link
@@ -392,7 +392,7 @@ function HomePage() {
       <Shell tone="lavender">
         <Rise>
           <Eyebrow>Our approach</Eyebrow>
-          <h2 className="display-lg text-balance-tight mt-6 max-w-3xl">More than a lecture.</h2>
+          <h2 className="display-lg text-balance-tight mt-4 max-w-3xl">More than a lecture.</h2>
         </Rise>
         <ApproachTrack stages={APPROACH} />
       </Shell>
@@ -403,7 +403,7 @@ function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Rise>
               <Eyebrow>Our team</Eyebrow>
-              <h2 className="display-lg text-balance-tight mt-6 max-w-2xl">
+              <h2 className="display-lg text-balance-tight mt-4 max-w-2xl">
                 The people in front of the room.
               </h2>
             </Rise>
@@ -413,7 +413,7 @@ function HomePage() {
           </div>
 
           {lead ? (
-            <Rise className="mt-14 grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] lg:gap-16">
+            <Rise className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] lg:gap-16">
               <div className="mx-auto w-full max-w-sm lg:mx-0">
                 {lead.photo ? (
                   <img
@@ -452,7 +452,7 @@ function HomePage() {
           ) : null}
 
           {trainerList.length > 1 ? (
-            <div className="mt-14">
+            <div className="mt-10">
               <TrainerCarousel people={trainerList.slice(1)} onSelect={setPerson} />
             </div>
           ) : null}
@@ -465,16 +465,16 @@ function HomePage() {
           <div className="max-w-3xl">
             <Rise>
               <Eyebrow invert>Global reach</Eyebrow>
-              <h2 className="display-lg mt-6 text-dark-foreground">Training beyond borders.</h2>
+              <h2 className="display-lg mt-4 text-dark-foreground">Training beyond borders.</h2>
               <p className="mt-6 text-base leading-relaxed text-dark-foreground/70 sm:text-lg">
                 The same practical method, adapted to each campus, culture and classroom.
               </p>
             </Rise>
           </div>
-          <div className="mt-16">
+          <div className="mt-10">
             <GlobalReach countries={countries} institutionsByCountry={institutionsByCountry} />
           </div>
-          <div className="mt-14 flex flex-wrap items-center gap-5">
+          <div className="mt-10 flex flex-wrap items-center gap-5">
             <Link to="/global-reach" className="link-underline text-sm font-semibold text-dark-foreground">
               See our global reach
             </Link>
@@ -490,7 +490,7 @@ function HomePage() {
         <Shell tone="white">
           <Rise>
             <Eyebrow>Countries</Eyebrow>
-            <h2 className="display-lg text-balance-tight mt-6 max-w-2xl">Where Limra has trained.</h2>
+            <h2 className="display-lg text-balance-tight mt-4 max-w-2xl">Where Limra has trained.</h2>
           </Rise>
           <PresenceRows countries={countries} />
         </Shell>
@@ -498,11 +498,11 @@ function HomePage() {
 
       {/* ---------------- Institution trust wall ---------------- */}
       {institutionList.length ? (
-        <Shell tone="lavender" bleed className="py-24 sm:py-32">
+        <Shell tone="lavender" bleed className="py-14 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <Rise>
               <Eyebrow>Trusted by</Eyebrow>
-              <h2 className="display-lg text-balance-tight mt-6 max-w-3xl">
+              <h2 className="display-lg text-balance-tight mt-4 max-w-3xl">
                 Institutions that invited Limra in.
               </h2>
             </Rise>
@@ -531,13 +531,13 @@ function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Rise>
               <Eyebrow>Gallery</Eyebrow>
-              <h2 className="display-lg text-balance-tight mt-6 max-w-2xl">Inside a Limra workshop.</h2>
+              <h2 className="display-lg text-balance-tight mt-4 max-w-2xl">Inside a Limra workshop.</h2>
             </Rise>
             <SecondaryButton to="/gallery" size="default">
               Full gallery <ArrowRight className="ml-1.5 size-4" />
             </SecondaryButton>
           </div>
-          <div className="mt-14">
+          <div className="mt-10">
             <GalleryMasonry images={gallery} />
           </div>
         </Shell>

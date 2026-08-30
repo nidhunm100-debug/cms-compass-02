@@ -34,7 +34,7 @@ function GlobalReachPage() {
         title="Where We Train"
         intro="Countries and regions where Limra Academy has delivered workshops."
       />
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16">
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading countries…</p>
         ) : countries.length ? (
