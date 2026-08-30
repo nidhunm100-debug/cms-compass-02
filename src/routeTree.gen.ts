@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CredentialsRouteImport } from './routes/credentials'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GlobalReachRouteImport } from './routes/global-reach'
 import { Route as ImpactRouteImport } from './routes/impact'
@@ -55,6 +56,11 @@ const AboutRoute = AboutRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CredentialsRoute = CredentialsRouteImport.update({
+  id: '/credentials',
+  path: '/credentials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -415,6 +427,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CredentialsRoute: typeof CredentialsRoute
   GalleryRoute: typeof GalleryRoute
   GlobalReachRoute: typeof GlobalReachRoute
   ImpactRoute: typeof ImpactRoute
@@ -467,6 +480,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credentials': {
+      id: '/credentials'
+      path: '/credentials'
+      fullPath: '/credentials'
+      preLoaderRoute: typeof CredentialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -679,6 +699,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CredentialsRoute: CredentialsRoute,
   GalleryRoute: GalleryRoute,
   GlobalReachRoute: GlobalReachRoute,
   ImpactRoute: ImpactRoute,
