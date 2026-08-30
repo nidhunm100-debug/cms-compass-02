@@ -171,7 +171,7 @@ export function ImpactStrip({
 }) {
   if (!stats.length && !countries.length) return null;
   return (
-    <section className="royal-gradient grain relative">
+    <section className="royal-gradient grain relative overflow-hidden">
       <div
         aria-hidden
         className="glow-purple pointer-events-none absolute -top-24 left-1/3 size-72 rounded-full opacity-70"
