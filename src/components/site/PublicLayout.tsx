@@ -337,7 +337,7 @@ export function PageHeader({
 }
 
 /** Compact inline empty state — never reserves large vertical space. */
-export function EmptyState({ title, body }: { title: string; body?: string }) {
+export function EmptyState({ title, body }: { title: string; body?: string | undefined }) {
   return (
     <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 rounded-xl border border-dashed border-border bg-card px-4 py-3">
       <p className="text-sm font-semibold">{title}</p>

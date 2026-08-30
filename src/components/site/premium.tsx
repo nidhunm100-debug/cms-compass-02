@@ -694,10 +694,10 @@ export function PresenceRows({
 }) {
   if (!countries.length) return null;
   return (
-    <ul className="mt-14 divide-y divide-border border-y border-border">
+    <ul className="mt-10 divide-y divide-border border-y border-border">
       {countries.map((c) => (
         <li key={c.id} className="group relative isolate">
-          <Link to="/global-reach" className="flex items-center justify-between gap-6 px-1 py-7 sm:py-9">
+          <Link to="/global-reach" className="flex items-center justify-between gap-6 px-1 py-6 sm:py-7">
             {c.featured_image_url ? (
               <img
                 src={c.featured_image_url}
