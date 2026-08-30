@@ -217,7 +217,7 @@ export function PublicLayout({ children, overlay }: { children: ReactNode; overl
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
           <div className="space-y-3">
             {footer.logo_url ? (
-              <img src={footer.logo_url} alt={branding.site_name || "Limra Academy"} className="h-10 w-auto" />
+              <img src={footer.logo_url} alt={branding.site_name || "Limra Academy"} width={480} height={208} loading="lazy" decoding="async" className="h-10 w-auto" />
             ) : (
               <p className="font-display text-lg font-extrabold">{branding.site_name || "Limra Academy for Excellence"}</p>
             )}
