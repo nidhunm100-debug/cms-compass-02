@@ -80,7 +80,9 @@ export function Shell({
   } as const;
   return (
     <section id={id} className={cn("relative overflow-hidden", tones[tone], className)}>
-      <div className={cn("relative mx-auto max-w-7xl", bleed ? "" : "px-5 py-24 sm:px-8 sm:py-32")}>{children}</div>
+      <div className={cn("relative mx-auto max-w-7xl", bleed ? "" : "px-5 py-14 sm:px-8 sm:py-20 lg:py-24")}>
+        {children}
+      </div>
     </section>
   );
 }
@@ -174,7 +176,7 @@ export function ImpactStrip({
         aria-hidden
         className="glow-purple pointer-events-none absolute -top-24 left-1/3 size-72 rounded-full opacity-70"
       />
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+      <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16">
         {stats.length ? (
           <dl className="grid gap-10 sm:grid-cols-3 sm:gap-8">
             {stats.slice(0, 3).map((s, i) => (
@@ -185,7 +187,7 @@ export function ImpactStrip({
           </dl>
         ) : null}
         {countries.length ? (
-          <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-dark-foreground/15 pt-8">
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-dark-foreground/15 pt-7">
             <p className="eyebrow text-dark-foreground/55">International training experience</p>
             <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
               {countries.map((c) => (
