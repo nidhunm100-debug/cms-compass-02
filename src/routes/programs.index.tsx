@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-import { EmptyState, PageHeader, PublicLayout } from "@/components/site/PublicLayout";
+import { PublicLayout, whatsappHref } from "@/components/site/PublicLayout";
 import { SeoHead } from "@/components/site/SeoHead";
-import { usePrograms } from "@/lib/public-cms";
-import { Badge } from "@/components/ui/badge";
+import { Eyebrow, Rise, Shell } from "@/components/site/premium";
+import { CTASection, ProgramCard, SecondaryButton } from "@/components/site/ui-kit";
+import { useHomepageSections, usePrograms, useSiteSettings } from "@/lib/public-cms";
 
 export const Route = createFileRoute("/programs/")({
   head: () => ({
@@ -25,24 +26,99 @@ export const Route = createFileRoute("/programs/")({
   component: ProgramsPage,
 });
 
+const CATEGORY_ORDER = [
+  "Student Development",
+  "Teacher Development",
+  "Corporate & Professional Development",
+  "Personal Effectiveness",
+  "Communication & Leadership",
+  "Cognitive & Memory Training",
+  "Teaching & Education Skills",
+  "Other Professional Training",
+];
+
 function ProgramsPage() {
   const { data: programs = [], isLoading } = usePrograms();
+  const { data: sections } = useHomepageSections();
+  const { data: settings = {} } = useSiteSettings();
+  const wa = whatsappHref(settings.contact?.whatsapp);
   const [category, setCategory] = useState<string>("All");
-  const categories = ["All", ...Array.from(new Set(programs.map((p) => p.category).filter(Boolean) as string[]))];
-  const visible = category === "All" ? programs : programs.filter((p) => p.category === category);
+
+  const featured = useMemo(
+    () => programs.find((p) => p.featured) ?? programs.find((p) => /train the brain/i.test(p.name)) ?? null,
+    [programs],
+  );
+  const rest = programs.filter((p) => p.id !== featured?.id);
+
+  const presentCategories = useMemo(() => {
+    const found = Array.from(new Set(rest.map((p) => p.category).filter(Boolean) as string[]));
+    return [...CATEGORY_ORDER.filter((c) => found.includes(c)), ...found.filter((c) => !CATEGORY_ORDER.includes(c))];
+  }, [rest]);
+
+  const groups = (category === "All" ? presentCategories : presentCategories.filter((c) => c === category)).map(
+    (c) => ({ category: c, list: rest.filter((p) => p.category === c) }),
+  );
+  const uncategorised = category === "All" ? rest.filter((p) => !p.category) : [];
 
   return (
-    <PublicLayout>
+    <PublicLayout overlay>
       <SeoHead pageKey="programs" />
-      <PageHeader
-        eyebrow="Programs"
-        title="Our Training Programs"
-        intro="Every program is delivered on campus or in-house by Limra trainers."
-      />
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        {categories.length > 2 ? (
-          <div className="mb-8 flex flex-wrap gap-2">
-            {categories.map((c) => (
+
+      {/* ---------------- Compact hero ---------------- */}
+      <section className="relative isolate overflow-hidden bg-dark text-dark-foreground">
+        {sections?.map["programs"]?.image_url ? (
+          <img
+            src={sections.map["programs"].image_url}
+            alt="Limra Academy workshop"
+            className="absolute inset-0 -z-20 size-full object-cover"
+          />
+        ) : (
+          <div aria-hidden className="royal-gradient absolute inset-0 -z-20" />
+        )}
+        <div aria-hidden className="side-veil absolute inset-0 -z-10" />
+        <div className="relative mx-auto max-w-7xl px-5 pt-28 pb-14 sm:px-8 sm:pt-36 sm:pb-20">
+          <Rise className="max-w-3xl">
+            <Eyebrow invert>Programs</Eyebrow>
+            <h1 className="display-lg mt-4 text-dark-foreground">Training designed for real-world learning.</h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-dark-foreground/75 sm:text-lg">
+              Every program is delivered on campus or in-house by Limra trainers, and shaped around the audience in
+              the room.
+            </p>
+          </Rise>
+        </div>
+      </section>
+
+      {/* ---------------- Featured program ---------------- */}
+      {featured ? (
+        <Shell tone="white">
+          <ProgramCard
+            featured
+            name={featured.name}
+            audience={featured.target_audience}
+            duration={featured.duration}
+            format={featured.format}
+            description={featured.short_description}
+            image={featured.image_url}
+            to={`/programs/${featured.slug || featured.id}`}
+          />
+        </Shell>
+      ) : null}
+
+      {/* ---------------- Categories ---------------- */}
+      <Shell tone="lavender">
+        <div className="grid items-end gap-5 md:grid-cols-[minmax(0,1fr)_auto]">
+          <Rise className="min-w-0">
+            <Eyebrow>All programs</Eyebrow>
+            <h2 className="display-md text-balance-tight mt-4">Programs by category.</h2>
+          </Rise>
+          <SecondaryButton to="/training-areas" size="default">
+            Training areas <ArrowRight className="ml-1.5 size-4" />
+          </SecondaryButton>
+        </div>
+
+        {presentCategories.length > 1 ? (
+          <div className="mt-8 flex flex-wrap gap-2">
+            {["All", ...presentCategories].map((c) => (
               <button
                 key={c}
                 type="button"
@@ -58,47 +134,82 @@ function ProgramsPage() {
             ))}
           </div>
         ) : null}
-        {isLoading ? (
-          <p className="text-sm text-muted-foreground">Loading programs…</p>
-        ) : visible.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visible.map((program) => (
-              <article key={program.id} className="overflow-hidden rounded-lg border border-border bg-card">
 
-                {program.image_url ? (
-                  <img
-                    src={program.image_url}
-                    alt={program.name}
-                    loading="lazy"
-                    className="aspect-16/10 w-full object-cover"
-                  />
-                ) : null}
-                <div className="space-y-2 p-5">
-                  <h2 className="font-display text-xl">{program.name}</h2>
-                  <div className="flex flex-wrap gap-1.5">
-                    {program.category ? <Badge>{program.category}</Badge> : null}
-                    {program.target_audience ? <Badge variant="secondary">{program.target_audience}</Badge> : null}
-                    {program.duration ? <Badge variant="outline">{program.duration}</Badge> : null}
-                  </div>
-                  <p className="text-sm text-muted-foreground">{program.short_description}</p>
-                  <Link
-                    to="/programs/$slug"
-                    params={{ slug: program.slug || program.id }}
-                    className="inline-flex items-center text-sm font-medium text-primary"
-                  >
-                    View program <ArrowRight className="ml-1 size-3.5" />
-                  </Link>
-                </div>
-              </article>
+        {isLoading ? (
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="h-56 animate-pulse rounded-3xl bg-muted" />
             ))}
           </div>
+        ) : groups.length || uncategorised.length ? (
+          <div className="mt-10 space-y-12">
+            {groups.map((group) => (
+              <div key={group.category}>
+                <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-border pb-3">
+                  <h3 className="font-display text-xl font-extrabold tracking-tight">{group.category}</h3>
+                  <span className="text-xs font-semibold text-muted-foreground">
+                    {group.list.length} program{group.list.length === 1 ? "" : "s"}
+                  </span>
+                </div>
+                {group.list.length ? (
+                  <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {group.list.map((p) => (
+                      <ProgramCard
+                        key={p.id}
+                        name={p.name}
+                        audience={p.target_audience}
+                        duration={p.duration}
+                        format={p.format}
+                        description={p.short_description}
+                        image={p.image_url}
+                        to={`/programs/${p.slug || p.id}`}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-muted-foreground">No programs currently listed.</p>
+                )}
+              </div>
+            ))}
+
+            {uncategorised.length ? (
+              <div>
+                <div className="border-b border-border pb-3">
+                  <h3 className="font-display text-xl font-extrabold tracking-tight">More programs</h3>
+                </div>
+                <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {uncategorised.map((p) => (
+                    <ProgramCard
+                      key={p.id}
+                      name={p.name}
+                      audience={p.target_audience}
+                      duration={p.duration}
+                      format={p.format}
+                      description={p.short_description}
+                      image={p.image_url}
+                      to={`/programs/${p.slug || p.id}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
         ) : (
-          <EmptyState
-            title="No programs published yet."
-            body="An administrator can add programs in the admin panel."
-          />
+          <p className="mt-6 text-sm text-muted-foreground">
+            No programs published yet.{" "}
+            <Link to="/contact" className="font-semibold text-primary">
+              Ask us what we can run for you
+            </Link>
+            .
+          </p>
         )}
-      </section>
+      </Shell>
+
+      <CTASection
+        title="Not sure which program fits?"
+        body="Tell us the audience, the objective and the time available — we will recommend the right workshop."
+        whatsappHref={wa}
+      />
     </PublicLayout>
   );
 }
