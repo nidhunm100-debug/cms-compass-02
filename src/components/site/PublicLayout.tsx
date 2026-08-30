@@ -160,7 +160,7 @@ export function PublicLayout({ children, overlay }: { children: ReactNode; overl
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-2.5 sm:px-5 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
             <Link to="/" className="flex min-w-0 items-center gap-2.5">
               {branding.logo_url ? (
-                <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} className="h-9 w-auto" />
+                <img src={branding.logo_url} alt={branding.site_name || "Limra Academy"} width={480} height={208} fetchPriority="high" decoding="async" className="h-9 w-auto" />
               ) : (
                 <span className="font-display grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-sm font-extrabold text-primary-foreground">
                   L
@@ -217,7 +217,7 @@ export function PublicLayout({ children, overlay }: { children: ReactNode; overl
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
           <div className="space-y-3">
             {footer.logo_url ? (
-              <img src={footer.logo_url} alt={branding.site_name || "Limra Academy"} className="h-10 w-auto" />
+              <img src={footer.logo_url} alt={branding.site_name || "Limra Academy"} width={480} height={208} loading="lazy" decoding="async" className="h-10 w-auto" />
             ) : (
               <p className="font-display text-lg font-extrabold">{branding.site_name || "Limra Academy for Excellence"}</p>
             )}
