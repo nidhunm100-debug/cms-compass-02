@@ -96,7 +96,6 @@ function ProgramsPage() {
             name={featured.name}
             audience={featured.target_audience}
             duration={featured.duration}
-            format={featured.format}
             description={featured.short_description}
             image={featured.image_url}
             to={`/programs/${featured.slug || featured.id}`}
@@ -159,7 +158,6 @@ function ProgramsPage() {
                         name={p.name}
                         audience={p.target_audience}
                         duration={p.duration}
-                        format={p.format}
                         description={p.short_description}
                         image={p.image_url}
                         to={`/programs/${p.slug || p.id}`}
@@ -184,7 +182,6 @@ function ProgramsPage() {
                       name={p.name}
                       audience={p.target_audience}
                       duration={p.duration}
-                      format={p.format}
                       description={p.short_description}
                       image={p.image_url}
                       to={`/programs/${p.slug || p.id}`}

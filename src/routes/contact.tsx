@@ -114,7 +114,7 @@ function ContactPage() {
         title="Let's Talk About Your Training Requirement"
         intro="Tell us about your institution and requirement. We will get back to you."
       />
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
+      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
         <form
           className="grid gap-4 rounded-[1.75rem] border border-border bg-card p-6 shadow-card sm:grid-cols-2 sm:p-9 lg:order-2"
           onSubmit={(e) => {

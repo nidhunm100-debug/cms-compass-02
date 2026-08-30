@@ -498,7 +498,7 @@ function HomePage() {
 
       {/* ---------------- Institution trust wall ---------------- */}
       {institutionList.length ? (
-        <Shell tone="lavender" bleed className="py-24 sm:py-32">
+        <Shell tone="lavender" bleed className="py-14 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <Rise>
               <Eyebrow>Trusted by</Eyebrow>

@@ -79,7 +79,7 @@ function WorkshopsPage() {
     <PublicLayout>
       <SeoHead pageKey="workshops" />
       <PageHeader eyebrow="Workshops" title="Workshops & Events" intro="What is coming up, and what we have delivered." />
-      <section className="mx-auto max-w-6xl space-y-14 px-4 py-14">
+      <section className="mx-auto max-w-7xl space-y-12 px-5 py-14 sm:px-8 sm:py-16">
         <div>
           <h2 className="font-display text-2xl">Upcoming Workshops</h2>
           <div className="mt-5">
