@@ -25,6 +25,7 @@ import { Route as WorkshopsRouteImport } from './routes/workshops'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminCountriesRouteImport } from './routes/admin.countries'
+import { Route as AdminCredentialsRouteImport } from './routes/admin.credentials'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
@@ -121,6 +122,11 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
 const AdminCountriesRoute = AdminCountriesRouteImport.update({
   id: '/admin/countries',
   path: '/admin/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCredentialsRoute = AdminCredentialsRouteImport.update({
+  id: '/admin/credentials',
+  path: '/admin/credentials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -260,6 +267,7 @@ export interface FileRoutesByTo {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -333,6 +342,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -368,6 +378,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -439,6 +451,7 @@ export interface RootRouteChildren {
   WorkshopsRoute: typeof WorkshopsRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCountriesRoute: typeof AdminCountriesRoute
+  AdminCredentialsRoute: typeof AdminCredentialsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
@@ -571,6 +584,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/countries'
       fullPath: '/admin/countries'
       preLoaderRoute: typeof AdminCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/credentials': {
+      id: '/admin/credentials'
+      path: '/admin/credentials'
+      fullPath: '/admin/credentials'
+      preLoaderRoute: typeof AdminCredentialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/dashboard': {
@@ -711,6 +731,7 @@ const rootRouteChildren: RootRouteChildren = {
   WorkshopsRoute: WorkshopsRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCountriesRoute: AdminCountriesRoute,
+  AdminCredentialsRoute: AdminCredentialsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminGalleryRoute: AdminGalleryRoute,
