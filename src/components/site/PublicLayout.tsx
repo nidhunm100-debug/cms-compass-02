@@ -46,6 +46,7 @@ function useHeaderNav(): NavItem[] {
         { label: "Impact numbers", to: "/impact" },
         { label: "Global reach", to: "/global-reach" },
         { label: "Institutions", to: "/institutions" },
+        { label: "Credentials", to: "/credentials" },
         { label: "Gallery", to: "/gallery" },
       ],
     },

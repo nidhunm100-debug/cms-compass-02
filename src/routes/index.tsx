@@ -3,6 +3,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, MessageCircle, Users } from "lucide-react";
 
 import { PublicLayout, whatsappHref } from "@/components/site/PublicLayout";
+import {
+  CertificateMarquee,
+  CertificateViewer,
+  useCertificateViewer,
+} from "@/components/site/credentials";
 import { SeoHead } from "@/components/site/SeoHead";
 import { PrimaryButton, SecondaryButton } from "@/components/site/ui-kit";
 import {
@@ -30,6 +35,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   useCountries,
+  useCredentials,
   useGalleryImages,
   useHomepageSections,
   useImpactStats,
@@ -131,6 +137,8 @@ function HomePage() {
   const { data: testimonials = [] } = useTestimonials();
   const { data: topics = [] } = useTrainingTopics();
   const { data: impactStats = [] } = useImpactStats();
+  const { data: homepageCredentials = [] } = useCredentials({ homepage: true });
+  const certViewer = useCertificateViewer();
 
   const [person, setPerson] = useState<ShowcasePerson | null>(null);
 
@@ -543,6 +551,26 @@ function HomePage() {
         </Shell>
       ) : null}
 
+      {/* ---------------- Credentials ---------------- */}
+      {homepageCredentials.length ? (
+        <Shell tone="dark" className="grain">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <Rise>
+              <Eyebrow invert>Our credentials</Eyebrow>
+              <h2 className="display-lg text-balance-tight mt-4 max-w-2xl text-dark-foreground">
+                Recognised by the institutions we train.
+              </h2>
+            </Rise>
+            <SecondaryButton to="/credentials" size="default" invert>
+              All credentials <ArrowRight className="ml-1.5 size-4" />
+            </SecondaryButton>
+          </div>
+          <div className="mt-10">
+            <CertificateMarquee credentials={homepageCredentials} onOpen={certViewer.open} />
+          </div>
+        </Shell>
+      ) : null}
+
       {/* ---------------- Testimonials ---------------- */}
       {testimonials.length ? (
         <Shell tone="dark" className="grain">
@@ -620,6 +648,13 @@ function HomePage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <CertificateViewer
+        credentials={homepageCredentials}
+        index={certViewer.index}
+        onClose={certViewer.close}
+        onIndexChange={certViewer.setIndex}
+      />
 
       <div className="sr-only">
         <Link to="/workshops">Upcoming workshops</Link>

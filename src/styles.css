@@ -453,3 +453,32 @@
     animation: none;
   }
 }
+
+/* ---------------- Credentials marquee ---------------- */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 46s linear infinite;
+}
+
+.marquee-mask:hover .marquee-track,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

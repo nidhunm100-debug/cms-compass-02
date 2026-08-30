@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CredentialsRouteImport } from './routes/credentials'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GlobalReachRouteImport } from './routes/global-reach'
 import { Route as ImpactRouteImport } from './routes/impact'
@@ -24,6 +25,7 @@ import { Route as WorkshopsRouteImport } from './routes/workshops'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminCountriesRouteImport } from './routes/admin.countries'
+import { Route as AdminCredentialsRouteImport } from './routes/admin.credentials'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
@@ -55,6 +57,11 @@ const AboutRoute = AboutRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CredentialsRoute = CredentialsRouteImport.update({
+  id: '/credentials',
+  path: '/credentials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -115,6 +122,11 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
 const AdminCountriesRoute = AdminCountriesRouteImport.update({
   id: '/admin/countries',
   path: '/admin/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCredentialsRoute = AdminCredentialsRouteImport.update({
+  id: '/admin/credentials',
+  path: '/admin/credentials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -207,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -218,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -241,6 +255,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -252,6 +267,7 @@ export interface FileRoutesByTo {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -276,6 +292,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/credentials': typeof CredentialsRoute
   '/gallery': typeof GalleryRoute
   '/global-reach': typeof GlobalReachRoute
   '/impact': typeof ImpactRoute
@@ -287,6 +304,7 @@ export interface FileRoutesById {
   '/workshops': typeof WorkshopsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/countries': typeof AdminCountriesRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -312,6 +330,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -323,6 +342,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -346,6 +366,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -357,6 +378,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -380,6 +402,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/credentials'
     | '/gallery'
     | '/global-reach'
     | '/impact'
@@ -391,6 +414,7 @@ export interface FileRouteTypes {
     | '/workshops'
     | '/admin/analytics'
     | '/admin/countries'
+    | '/admin/credentials'
     | '/admin/dashboard'
     | '/admin/enquiries'
     | '/admin/gallery'
@@ -415,6 +439,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CredentialsRoute: typeof CredentialsRoute
   GalleryRoute: typeof GalleryRoute
   GlobalReachRoute: typeof GlobalReachRoute
   ImpactRoute: typeof ImpactRoute
@@ -426,6 +451,7 @@ export interface RootRouteChildren {
   WorkshopsRoute: typeof WorkshopsRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCountriesRoute: typeof AdminCountriesRoute
+  AdminCredentialsRoute: typeof AdminCredentialsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
@@ -467,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credentials': {
+      id: '/credentials'
+      path: '/credentials'
+      fullPath: '/credentials'
+      preLoaderRoute: typeof CredentialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -551,6 +584,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/countries'
       fullPath: '/admin/countries'
       preLoaderRoute: typeof AdminCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/credentials': {
+      id: '/admin/credentials'
+      path: '/admin/credentials'
+      fullPath: '/admin/credentials'
+      preLoaderRoute: typeof AdminCredentialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/dashboard': {
@@ -679,6 +719,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CredentialsRoute: CredentialsRoute,
   GalleryRoute: GalleryRoute,
   GlobalReachRoute: GlobalReachRoute,
   ImpactRoute: ImpactRoute,
@@ -690,6 +731,7 @@ const rootRouteChildren: RootRouteChildren = {
   WorkshopsRoute: WorkshopsRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCountriesRoute: AdminCountriesRoute,
+  AdminCredentialsRoute: AdminCredentialsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminGalleryRoute: AdminGalleryRoute,

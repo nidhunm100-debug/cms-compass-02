@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  Award,
   BarChart3,
   Building2,
   CalendarDays,
@@ -41,6 +42,7 @@ const NAV_ITEMS = [
   { to: "/admin/impact", label: "Impact Statistics", icon: TrendingUp },
   { to: "/admin/media", label: "Media Library", icon: Image },
   { to: "/admin/gallery", label: "Gallery", icon: Image },
+  { to: "/admin/credentials", label: "Credentials", icon: Award },
   { to: "/admin/workshops", label: "Workshops", icon: CalendarDays },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/enquiries", label: "Enquiries", icon: Mail },

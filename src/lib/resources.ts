@@ -538,3 +538,45 @@ export const seoResource: ResourceConfig = {
     { name: "robots_index", label: "Allow search engines to index", type: "switch" },
   ],
 };
+
+export const CREDENTIAL_CATEGORIES = [
+  "International",
+  "Education",
+  "Training",
+  "Professional",
+  "Other",
+];
+
+export const credentialsResource: ResourceConfig = {
+  table: "credentials",
+  title: "Credentials & Certificates",
+  singular: "Credential",
+  description: "Certificates and appreciation letters shown on the homepage and the Credentials page.",
+  listPrimary: "title",
+  listSecondary: ["issuing_organization", "category", "year"],
+  imageColumn: "image_url",
+  searchColumns: ["title", "issuing_organization", "category", "description"],
+  filters: [{ column: "category", label: "Categories", options: CREDENTIAL_CATEGORIES }],
+  orderColumn: "display_order",
+  publishColumn: "published",
+  featuredColumn: "featured",
+  softDelete: true,
+  previewPath: "/credentials",
+  emptyTitle: "No credentials yet.",
+  emptyBody: "Upload a certificate or appreciation letter to build the credentials wall.",
+  fields: [
+    { name: "image_url", label: "Certificate image", type: "image", required: true, mediaCategory: "General" },
+    { name: "title", label: "Certificate title", type: "text", required: true },
+    { name: "issuing_organization", label: "Issuing organisation", type: "text" },
+    { name: "certificate_date", label: "Date", type: "date" },
+    { name: "year", label: "Year", type: "number" },
+    { name: "category", label: "Category", type: "select", options: CREDENTIAL_CATEGORIES },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "alt_text", label: "Alt text", type: "text", help: "Describes the certificate for accessibility and SEO." },
+    { name: "display_order", label: "Display order", type: "number" },
+    { name: "featured", label: "Featured", type: "switch" },
+    { name: "show_on_homepage", label: "Show on homepage", type: "switch" },
+    { name: "show_on_credentials_page", label: "Show on credentials page", type: "switch" },
+    { name: "published", label: "Published", type: "switch" },
+  ],
+};
